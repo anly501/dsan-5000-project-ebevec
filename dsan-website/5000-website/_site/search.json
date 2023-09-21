@@ -7,6 +7,13 @@
     "text": "See the following link for more information about the author: about me\nThis is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\nHIGHLY RECOMMENDED\n\nIt is highly recommended that you build your website using .ipynb files and NOT .qmdfiles\nFunctionally the two formats are basically identical, i.e. they are just Markdown + Code\nHowever there is ONE MAJOR DIFFERENCE, i.e. .ipynb stores the code outputs in the meta-data of the file\n\nThis means you ONLY HAVE TO RUN THE CODE ONCE with .ipynb\n.qmd will run the code every time you build the website, which can be very slow\n\nThere are caching options for .qmd, however, they are “messier” that just using .ipynb\n\nNote: .qmd is fine if there is no code, in which case it is basically just a Markdown file\n\nConverting between the two\n\nYou can switch between the two formats using\nquarto convert clustering.qmd this will output a .ipynb version called clustering.ipynb\nquarto convert eda.ipynb this will output a .qmd version called eda.qmd\n\nYOU CAN RUN R CODE IN VSC WITH .ipynb, see the following link\n\nhttps://saturncloud.io/blog/how-to-use-jupyter-r-kernel-with-visual-studio-code/\n\nIt is possible, but NOT RECOMMENDED, to mix Python and R code in the same file\n\nIMPORTANT ASIDE\n\nA .ipynb file is simply a JSON file with a specialized structural format\nYou can see this by running more eda/eda.ipynb from the command line\nWhich will output the following;\n\n\nTIP FOR MAC USERS\n\ncommand+control+shift+4 is very useful on a mac.\n\nIt takes a screenshot and saves it to the clip-board\n\nThe following VSC extension allows you to paste images from the clip-board with alt+command+v.\n\ntab is your best friend when using the command line, since it does auto-completion\nopen ./path_to_file will open any file or directory from the command line"
   },
   {
+    "objectID": "clustering/clustering.html",
+    "href": "clustering/clustering.html",
+    "title": "Clustering",
+    "section": "",
+    "text": "Build out your website tab for “clustering”"
+  },
+  {
     "objectID": "eda/eda.html",
     "href": "eda/eda.html",
     "title": "Data Exploration",
@@ -28,10 +35,87 @@
     "text": "Basic visualization\n\n\n# Create a visualization\nsns.relplot(\n    data=tips,\n    x=\"total_bill\", y=\"tip\", col=\"time\",\n    hue=\"smoker\", style=\"smoker\", size=\"size\",\n)\n\nplt.show()"
   },
   {
-    "objectID": "clustering/clustering.html",
-    "href": "clustering/clustering.html",
+    "objectID": "pages/eda/eda.html",
+    "href": "pages/eda/eda.html",
+    "title": "Data Exploration",
+    "section": "",
+    "text": "Build out your website tab for exploratory data analysis"
+  },
+  {
+    "objectID": "pages/eda/eda.html#quick-look-at-the-data",
+    "href": "pages/eda/eda.html#quick-look-at-the-data",
+    "title": "Data Exploration",
+    "section": "Quick look at the data",
+    "text": "Quick look at the data\n\n# Import seaborn\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n# Apply the default theme\nsns.set_theme(style=\"whitegrid\", palette=\"pastel\")\n\n# Load an example dataset\ntips = sns.load_dataset(\"tips\")\nprint(tips)\n\n     total_bill   tip     sex smoker   day    time  size\n0         16.99  1.01  Female     No   Sun  Dinner     2\n1         10.34  1.66    Male     No   Sun  Dinner     3\n2         21.01  3.50    Male     No   Sun  Dinner     3\n3         23.68  3.31    Male     No   Sun  Dinner     2\n4         24.59  3.61  Female     No   Sun  Dinner     4\n..          ...   ...     ...    ...   ...     ...   ...\n239       29.03  5.92    Male     No   Sat  Dinner     3\n240       27.18  2.00  Female    Yes   Sat  Dinner     2\n241       22.67  2.00    Male    Yes   Sat  Dinner     2\n242       17.82  1.75    Male     No   Sat  Dinner     2\n243       18.78  3.00  Female     No  Thur  Dinner     2\n\n[244 rows x 7 columns]"
+  },
+  {
+    "objectID": "pages/eda/eda.html#basic-visualization",
+    "href": "pages/eda/eda.html#basic-visualization",
+    "title": "Data Exploration",
+    "section": "Basic visualization",
+    "text": "Basic visualization\n\n\n# Create a visualization\nsns.relplot(\n    data=tips,\n    x=\"total_bill\", y=\"tip\", col=\"time\",\n    hue=\"smoker\", style=\"smoker\", size=\"size\",\n)\n\nplt.show()"
+  },
+  {
+    "objectID": "pages/about/about.html",
+    "href": "pages/about/about.html",
+    "title": "About Me: Erin Bevec",
+    "section": "",
+    "text": "Born in Malvern, Pennsylvania, Erin attended Great Valley High School and played competitive softball. Earning an Army Reserve Officers’ Training Corps Scholarship upon graduation, Erin attended the University of Rochester in upstate New York where she pursued two degrees in Statistics and Epidemiology. Erin held membership in Army ROTC and the University of Rochester Varsity Softball team during undergrad. She also participated in undergraduate research. After graduating from undergrad, Erin moved to the District of Columbia. She works full time as a data science consultant, part time as a Second Lieutenant in the United States Army Reserve, and simultanoeusly attends Georgetown University in pursuit of an M.S. in Data Science & Analytics.\n\n\n\n\n\n\n\n\n\n\n\n\n\nUniversity of Rochester\nUniversity of Rochester\nGeorgetown University\n\n\n\n\n\nB.S. Statistics\nB.A. Epidemiology\nM.S. Data Science & Analytics\n\n\n\n\n\nMay 2023\nMay 2023\nAnticipated: May 2025\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n\n\nEnvision2bWell\nTethra Technologies\nMerck & Co. \nJensen Hughes\n\n\n\n\n\nContent Writer Intern\nMachine Learning/Software Engineering Intern\nGlobal Data Operations Intern\nMachine Learning Intern\n\n\n\n\n\n\n\n\nConducted sexual and reproductive health research including a mixed-methods survey analysis and the optimization of methodological practice in SRH.\n\n\n\nConducted bioninformatics research in the fields of immnology and virology. Focused on survey and genomics data derived from a cohort study on atopic disease in distinct populations.\n\n\n\n\n\n\nLeading soliders in preparation to defend against Chemical, Biological, Radiological, and Nuclear threats.\n\n\n\nProviding data science consulting to clients in the nuclear power space. Leveraging natural language processing and artificial intellegence to predict real-time functional risk at nuclear power plants to ensure safe operations.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSentiment Analysis\nBayesian Inference\nMarkov Processes\nDecision Theory\nFormal Logic\n\n\n\n\n\nNational Security\nMarket Research\nGeopolitics\n\n\n\n\n\n\n\n\n\n(Richards 2022)\n(Levandowski et al. 2023)\n(Järvinen et al. 2022)\n\n\n\n\n\nErin is an avid hiker and rockclimber. Her outdoor expeditions have spanned the continental United States. She is actively pursuing a lifetime goal of visiting every National Park in the United States. So far, she has visited \\(\\frac{8}{63}\\) parks:\n\n\n\nRocky Mountain National Park\nMount Rainier National Park\nOlympic National Park\nZion National Park\n\n\n\nBryce Canyon National Park\nCanyonlands National Park\nCaptiol Reef National park\nArches National Park\n\n\n\nErin has been powerlifting since 2016. She hopes to compete in a powerlifting competiton in the DC area this coming Spring."
+  },
+  {
+    "objectID": "pages/clustering/clustering.html",
+    "href": "pages/clustering/clustering.html",
     "title": "Clustering",
     "section": "",
     "text": "Build out your website tab for “clustering”"
+  },
+  {
+    "objectID": "pages/about/about.html#background",
+    "href": "pages/about/about.html#background",
+    "title": "About Me: Erin Bevec",
+    "section": "",
+    "text": "Born in Malvern, Pennsylvania, Erin attended Great Valley High School and played competitive softball. Earning an Army Reserve Officers’ Training Corps Scholarship upon graduation, Erin attended the University of Rochester in upstate New York where she pursued two degrees in Statistics and Epidemiology. Erin held membership in Army ROTC and the University of Rochester Varsity Softball team during undergrad. She also participated in undergraduate research. After graduating from undergrad, Erin moved to the District of Columbia. She works full time as a data science consultant, part time as a Second Lieutenant in the United States Army Reserve, and simultanoeusly attends Georgetown University in pursuit of an M.S. in Data Science & Analytics."
+  },
+  {
+    "objectID": "pages/about/about.html#education",
+    "href": "pages/about/about.html#education",
+    "title": "About Me: Erin Bevec",
+    "section": "",
+    "text": "University of Rochester\nUniversity of Rochester\nGeorgetown University\n\n\n\n\n\nB.S. Statistics\nB.A. Epidemiology\nM.S. Data Science & Analytics\n\n\n\n\n\nMay 2023\nMay 2023\nAnticipated: May 2025"
+  },
+  {
+    "objectID": "pages/about/about.html#research-interests",
+    "href": "pages/about/about.html#research-interests",
+    "title": "About Me: Erin Bevec",
+    "section": "",
+    "text": "Sentiment Analysis\nBayesian Inference\nMarkov Processes\nDecision Theory\nFormal Logic\n\n\n\n\n\nNational Security\nMarket Research\nGeopolitics"
+  },
+  {
+    "objectID": "pages/about/about.html#fields",
+    "href": "pages/about/about.html#fields",
+    "title": "About Me: Erin Bevec",
+    "section": "",
+    "text": "National Security\nMarket Research\nGeopolitics"
+  },
+  {
+    "objectID": "pages/about/about.html#personal-life",
+    "href": "pages/about/about.html#personal-life",
+    "title": "About Me: Erin Bevec",
+    "section": "",
+    "text": "Erin is an avid hiker and rockclimber. Her outdoor expeditions have spanned the continental United States. She is actively pursuing a lifetime goal of visiting every National Park in the United States. So far, she has visited \\(\\frac{8}{63}\\) parks:\n\n\n\nRocky Mountain National Park\nMount Rainier National Park\nOlympic National Park\nZion National Park\n\n\n\nBryce Canyon National Park\nCanyonlands National Park\nCaptiol Reef National park\nArches National Park\n\n\n\nErin has been powerlifting since 2016. She hopes to compete in a powerlifting competiton in the DC area this coming Spring."
+  },
+  {
+    "objectID": "pages/about/about.html#publications",
+    "href": "pages/about/about.html#publications",
+    "title": "About Me: Erin Bevec",
+    "section": "",
+    "text": "(Richards 2022)\n(Levandowski et al. 2023)\n(Järvinen et al. 2022)"
+  },
+  {
+    "objectID": "pages/about/about.html#professional-experiences",
+    "href": "pages/about/about.html#professional-experiences",
+    "title": "About Me: Erin Bevec",
+    "section": "",
+    "text": "Envision2bWell\nTethra Technologies\nMerck & Co. \nJensen Hughes\n\n\n\n\n\nContent Writer Intern\nMachine Learning/Software Engineering Intern\nGlobal Data Operations Intern\nMachine Learning Intern\n\n\n\n\n\n\n\n\nConducted sexual and reproductive health research including a mixed-methods survey analysis and the optimization of methodological practice in SRH.\n\n\n\nConducted bioninformatics research in the fields of immnology and virology. Focused on survey and genomics data derived from a cohort study on atopic disease in distinct populations.\n\n\n\n\n\n\nLeading soliders in preparation to defend against Chemical, Biological, Radiological, and Nuclear threats.\n\n\n\nProviding data science consulting to clients in the nuclear power space. Leveraging natural language processing and artificial intellegence to predict real-time functional risk at nuclear power plants to ensure safe operations."
   }
 ]

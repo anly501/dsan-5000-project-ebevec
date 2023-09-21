@@ -7,14 +7,34 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: clustering/clustering.qmd
-        text: Clustering
-      - href: eda/eda.ipynb
+      - href: pages/about/about.qmd
+        text: About Me
+      - href: pages/code/code.qmd
+        text: Code
+      - href: pages/data/data.qmd
+        text: Data
+      - href: pages/introduction/introduction.qmd
+        text: Introduction
+      - href: pages/datagathering/datagathering.qmd
+        text: Data Gathering
+      - href: pages/datacleaning/datacleaning.qmd
+        text: Data Cleaning
+      - href: pages/eda/eda.ipynb
         text: Data Exploration
+      - href: pages/clustering/clustering.qmd
+        text: Clustering
+      - href: pages/dimred/dimred.qmd
+        text: Dimensionality Reduction
+      - href: pages/dectree/dectree.qmd
+        text: Decision Trees
+      - href: pages/arm/arm.qmd
+        text: ARM
+      - href: pages/conclusions/conclusions.qmd
+        text: Conclusions
+
+bibliography: references.bib
+
 format:
   html:
     theme: cosmo
     toc: true
-
-
-

@@ -1,0 +1,106 @@
+# About Me: Erin Bevec
+
+## Background
+Born in Malvern, Pennsylvania, Erin attended Great Valley High School and played competitive softball. Earning an Army Reserve Officers' Training Corps Scholarship upon graduation, Erin attended the University of Rochester in upstate New York where she pursued two degrees in Statistics and Epidemiology. Erin held membership in Army ROTC and the University of Rochester Varsity Softball team during undergrad. She also participated in undergraduate research. After graduating from undergrad, Erin moved to the District of Columbia. She works full time as a data science consultant, part time as a Second Lieutenant in the United States Army Reserve, and simultanoeusly attends Georgetown University in pursuit of an M.S. in Data Science & Analytics.
+
+![](../images/me_img.jpg){fig-align="center" width="3.14in"}
+
+## Education
+::: {layout-ncol=3}
+### Institution
+- University of Rochester
+- University of Rochester
+- Georgetown University
+
+### Degree
+- B.S. Statistics
+- B.A. Epidemiology
+- M.S. Data Science & Analytics
+
+### Graduation
+- May 2023
+- May 2023
+- Anticipated: May 2025
+:::
+
+![](../images/rochester.jpg){fig-align="left" width="3.14in"}
+![](../images/georgetown.jpg){fig-align="right" width="3.14in"}
+
+## Professional Experiences 
+
+### Internships
+::: {layout-ncol=2}
+### Company
+1. Envision2bWell 
+2. Tethra Technologies 
+3. Merck & Co. 
+4. Jensen Hughes 
+
+### Role
+1. Content Writer Intern 
+2. Machine Learning/Software Engineering Intern 
+3. Global Data Operations Intern 
+4. Machine Learning Intern 
+::: 
+
+### Academic Research
+#### Levandowski Laboratory
+Conducted sexual and reproductive health research including a mixed-methods survey analysis and the optimization of methodological practice in SRH.
+
+#### Thakar Laboratory
+Conducted bioninformatics research in the fields of immnology and virology. Focused on survey and genomics data derived from a cohort study on atopic disease in distinct populations. 
+
+### Post Graduate Roles
+#### Platoon Leader, 411th Chemical Company
+Leading soliders in preparation to defend against Chemical, Biological, Radiological, and Nuclear threats.
+
+#### Associate, Jensen Hughes
+Providing data science consulting to clients in the nuclear power space. Leveraging natural language processing and artificial intellegence to predict real-time functional risk at nuclear power plants to ensure safe operations.
+
+![](../images//jh.jpg){fig-align="center" width="6.14in"}
+
+## Research Interests
+::: {layout-ncol=2}
+### Concepts
+- Sentiment Analysis
+- Bayesian Inference
+- Markov Processes
+- Decision Theory
+- Formal Logic
+
+## Fields
+- National Security
+- Market Research
+- Geopolitics
+:::
+
+:::: {.columns}
+## Publications
+1. [@10.1371/journal.pmed.1003878] 
+2. [@10.1521/aeap.2023.35.3.213] 
+3. [@10.3389/fped.2022.916184] 
+::::
+
+## Personal Life
+Erin is an avid hiker and rockclimber. Her outdoor expeditions have spanned the continental United States. She is actively pursuing a lifetime goal of visiting every National Park in the United States. So far, she has visited $\frac{8}{63}$ parks:
+
+:::: {.columns}
+::: {.column width="50%"}
+1. Rocky Mountain National Park
+2. Mount Rainier National Park
+3. Olympic National Park
+4. Zion National Park
+:::
+
+::: {.column width="50%"}
+5. Bryce Canyon National Park
+6. Canyonlands National Park
+7. Captiol Reef National park
+8. Arches National Park
+:::
+::::
+
+Erin has been powerlifting since 2016. She hopes to compete in a powerlifting competiton in the DC area this coming Spring. 
+
+![](../images/hike_1.png){fig-align="right" width="3.14in"}
+![](../images/bryce.jpg){fig-align="right" width="5.14in"}
