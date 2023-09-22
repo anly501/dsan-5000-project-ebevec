@@ -1,0 +1,31 @@
+# Introduction
+
+Throughout the course of human history, there have been countless attempts at defining what it means to be free. From Locke to Hayek, freedom has been construed in a mutlitude of ways and held at different degrees of importance. Generally, freedom is the ability to act unconstrained at one's own will.
+
+In modern history, these attempts have become quantitative in nature. Governments and independent entities alike have created metrics by which we measure freedom. For example, the Cato Insitute publishes a multifactor review of freedom at the national and regional level known as the Human Freedom Index (HFI). Various factors are considered in freedom metrics - including freedom of religion, speech, and the press. 
+
+In the advent of the recent COVID-19 pandemic, geopolitical tension, and an ever-changing media landscape, the question of freedom remains: what is freedom and to what extent is it important?
+
+## Literature Review
+There are several schools of thought regarding what truly makes a country free. Some ascribe freedom to the political structure of a society. Democracy is typically regarded as the regime that enables individual level freedom, as citizens of a democracy have equal representation in the society. Others, however, believe that economic freedom is the most important mechanism in ensuring human freedom. Through economic freedom, individuals can operate freely in a capitalistic society. These schools of thought are not mutually exclusive; in fact, economic freedom and political freedom both contribute to individual liberty. However, the importance of one over the other remains relatively contentious. 
+
+In a 2020 article "Securing personal freedom through institutions: the role of electoral democracy and judicial independence", the relationship between legislative and judicial structure and personal freedom was evaluated [@berggren_securing_2020]. Personal freedom was the response variable, which is a numeric index derived from the Cato Insitute's Human Freedom Index. The indicator variables in the study were measures of legislation (i.e. Freedom of Religion), income, population, judicial independence, democracy, and partisian structure. A bivariate analysis between the independent variables and personal freedom was conducted. Additionally, regression analysis was conducted to elucidate statistically signficant predictors of personal freedom. The study also investigated freedom in a more granular way, looking at individual aspects of personal freedom as are defined by the index. The study determined that judicial independence is a predictor of personal freedom, as they are positively correlated. The granular analysis also found that rule of law is positively associated with individual income. However, the other areas of personal freedom were independent of income, indicating that political strucutre a more important indicator of personal freedom than economic standing. 
+
+Another research study published in 2021 titled "The Efficacy of Democracy and Freedom in Fostering Economic Growth" focuses on the relation between economic growth and personal freedom [@doi:10.1177/23949015211057942]. The authors considered multiple political, economic, docial, and governmental indicators on the national level from 2006 - 2018. These indicators, including personal freedom as defined by the Human Freedom Index, were evaluated as predictors of Gross Domestic Product (GDP) per capita. Specifically, the study ran panel regressions to evaluate these indicators of GDP per capita over time. These results led to the conclusion that democracy, income inequality, unemployment, urbanization, and economic and personal freedom are statistically significant indicators of GDP per capita. The study determined that higher degrees of personal freedom are associated with higher GDP per capita. This article demonstrates the interelatedness between personal freedom and macroeconomic indicators.
+
+The literature indicates that personal freedom is related to the quality of life in society. The Human Freedom Index is often used as a metric of personal freedom. This index ought to be evaluated for robustness and used to answer additional questions regarding individual liberty.
+
+## Aims
+The aim of this study is the answer the following research question: How should freedom be measured? This question is complicaited by the differences in individual characteristics, national identities, and percieved freedom. It is hypothesized that freedom ought to be measured by a combination of legal protections, economic factors, and geopolitical context. This research question will be evaluated through subordinate questions that are directly testable.
+
+## Research Questions
+1. What are the national level indicators of human freedom?
+2. Are different human freedom measurements concordant?
+3. Which nations are the most free?
+4. Does percieved freedom at the individual-level differ from measured freedom at the national level?
+5. Does a nation's macroeconomic standing affect freedom? 
+6. Do different countries define freedom differently?
+7. Which political systems are correlative with human freedom?
+8. How does national conflict affect human freedom?
+9. How did the COVID-19 pandemic affect freedom?
+10. How are different economic systems related to human freedom?
