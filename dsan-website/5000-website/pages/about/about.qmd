@@ -1,4 +1,4 @@
-# About Me: Erin Bevec
+# About Me: Erin Bevec (eb1349)
 
 ## Background
 Born in Malvern, Pennsylvania, Erin attended Great Valley High School and played competitive softball. Earning an Army Reserve Officers' Training Corps Scholarship upon graduation, Erin attended the University of Rochester in upstate New York where she pursued two degrees in Statistics and Epidemiology. Erin held membership in Army ROTC and the University of Rochester Varsity Softball team during undergrad. She also participated in undergraduate research. After graduating from undergrad, Erin moved to the District of Columbia. She works full time as a data science consultant, part time as a Second Lieutenant in the United States Army Reserve, and simultanoeusly attends Georgetown University in pursuit of an M.S. in Data Science & Analytics.
