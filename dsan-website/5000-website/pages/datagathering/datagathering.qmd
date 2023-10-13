@@ -1,0 +1,29 @@
+# Data Gathering
+
+## Methods
+The inspiration for this project was an interest in the Cato Institute's Human Freedom Index. Consequnetly the data gathering began by pulling the Human Freedom Index Data from 2022. A central aim of this study is to evaluate freedom prior to and following the COVID-19 pandemic and the subsequent global response. Thus, the HFI data was also pulled for 2019, one year prior to the advent of the pandemic. The online statistical resource, Our World in Data, also provides valuable country-wise data snapshots on a variety of social, political, and environmental factors. The resource was used to explore potential factors that may impact or indicate human freedom. The data sorces provided from this resource were used to pull relavent data. Data was also extracted directly from this open resource. The news API was used to pull relavent text data regarding Syria and Switzerland, the least and most free countries, respectively, according to the Human Freedom Index. Finally, the World Economic Outlook data was pulled from the Internatoinal Monetary Fund.
+
+## Sources
+
+### The Human Freedom Index Dataset (2022)
+The Human Freeedom Index Dataset was gathered from the Cato Institute's Website. The dataset is summarized in Figure 1.
+![Figure 1](hfi_fig.png)
+
+### The World Economic Outlook Dataset (2023)
+The World Economic Outlook Dataset was gathered from the Internatoinal Monetary Fund's Website. The dataset is summarized in Figure 2.
+![Figure 2](weo_fig.png)
+
+### Syria & Switzerland: BBC News
+The Syria and Switzerland Articles were Scraped from the News API. The data is summarized in Figures 3 and 4.
+#### Syria
+![Figure 3](sy_fig.png)
+
+#### Switzerland
+![Figure 4](sw_fig.png)
+
+## Data Links
+[Human Freedom Index Dataset](https://www.cato.org/human-freedom-index/2022)
+[World Economic Outlook Dataset](https://www.imf.org/en/Publications/SPROLLs/world-economic-outlook-databases#sort=%40imfdate%20descending)
+[News API](https://newsapi.org/)
+
+

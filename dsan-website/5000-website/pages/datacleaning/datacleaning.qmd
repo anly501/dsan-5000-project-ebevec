@@ -1,0 +1,15 @@
+# Data Cleaning
+
+## The Human Freedom Index Dataset (2022)
+The human freedom index dataset was initially cleaned through preliminary inspection and NA evaluation. All columns with greater than 50% NA rows were dropped from the dataset. Numeric summaries were run to describe the data. The cleaning was completed in Python.
+
+## The World Economic Outlook Dataset (2023)
+The World Economic Outlook Dataset was initially cleaned by replacing all 'n/a' strings with NA objects. NA analysis was conducted, leading to all columns with less than 33% NA were dropped. Unneeded columns were dropped. The outlook statistics were all converted to numeric, as they were string values in CSV format. This cleaning was completed in R.
+
+## Syria & Switzerland: News API
+The News API was used to conduct web scraping for articles regarding the least free and freest countries, according to the Human Freedom Index. The websites were scraped for the strings 'Syria' and 'Switzerland'. The subjects and text bodies were stored for further analysis.
+
+## Code Links
+{{< embed datacleaning_syria_switzerland.ipynb>}}
+{{< embed datacleaning_hfi.ipynb>}}
+{{< embed datacleaning_weo.R>}}
