@@ -1,0 +1,67 @@
+---
+title: "weo_contd"
+author: "Erin Bevec"
+date: "2023-10-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+weo <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_weo_clean.csv')
+```
+
+```{r}
+
+head(weo)
+subjects <- c('NGDP', 'LP', 'LE', 'LUR')
+  
+weo <- subset(weo, weo$WEO.Subject.Code %in% subjects)
+
+```
+
+```{r}
+weo <- weo[,-c(8:36)]
+weo <- weo[, -c(1,5,13)]
+
+weo1 <- weo[weo$WEO.Subject.Code == 'NGDP',]
+weo2 <- weo[weo$WEO.Subject.Code == 'LP',]
+weo3 <- weo[weo$WEO.Subject.Code == 'LUR',]
+
+```
+
+
+```{r}
+
+colnames(weo1) <- c("ISO", "WEO.Subject.Code", "Country", "Units", "Scale", "GDP_2019", "GDP_2020", "GDP_2021", "GDP_2022", "GDP_2023")
+colnames(weo2) <- c("ISO", "WEO.Subject.Code", "Country", "Units", "Scale", "pop_2019", "pop_2020", "pop_2021", "pop_2022", "pop_2023")
+colnames(weo3) <- c("ISO", "WEO.Subject.Code", "Country", "Units", "Scale", "unemployment_2019", "unemployment_2020", "unemployment_2021", "unemployment_2022", "unemployment_2023")
+
+```
+
+
+```{r}
+
+weo1$pop_2019 <- weo2$pop_2019
+weo1$pop_2020 <- weo2$pop_2020
+weo1$pop_2021 <- weo2$pop_2021
+weo1$pop_2022 <- weo2$pop_2022
+weo1$pop_2023 <- weo2$pop_2023
+
+weo1$unemployment_2019 <- weo3$unemployment_2019
+weo1$unemployment_2020 <- weo3$unemployment_2020
+weo1$unemployment_2021 <- weo3$unemployment_2021
+weo1$unemployment_2022 <- weo3$unemployment_2022
+weo1$unemployment_2023 <- weo3$unemployment_2023
+
+weo1 <- dplyr::select(weo1, -c('ISO', 'WEO.Subject.Code', 'Units', 'Scale', 'GDP_2021', 'pop_2021', 'unemployment_2021', 'GDP_2022', 'pop_2022', 'unemployment_2022', 'GDP_2023', 'pop_2023', 'unemployment_2023'))
+
+```
+
+```{r}
+
+write.csv(weo1, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_weo_clean2.csv')
+
+```

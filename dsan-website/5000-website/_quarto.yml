@@ -29,6 +29,8 @@ website:
         text: Decision Trees
       - href: pages/arm/arm.qmd
         text: ARM
+      - href: pages/naivebayes/naivebayes.qmd
+        text: Naive Bayes
       - href: pages/conclusions/conclusions.qmd
         text: Conclusions
 

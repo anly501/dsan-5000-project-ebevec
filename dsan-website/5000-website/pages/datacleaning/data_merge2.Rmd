@@ -1,0 +1,52 @@
+---
+title: "Merge & EDA"
+author: "Erin Bevec"
+date: "2023-10-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+hfi <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_hfi_clean2.csv')
+weo <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_weo_clean2.csv')
+school <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_school_clean2.csv')
+regime <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_regime_clean2.csv')
+
+```
+
+```{r}
+
+names(hfi)[names(hfi) == 'countries'] <- 'Country'
+names(hfi)[names(hfi) == 'countries'] <- 'Country'
+
+names(school)[names(school) == 'Entity'] <- 'Country'
+
+```
+
+```{r}
+
+data <- merge(weo, hfi, by = 'Country')
+data2 <- merge(school, regime, by = 'Country')
+
+data <- merge(data, data2, by = 'Country')
+
+```
+
+```{r}
+
+colnames(data)
+data <- select(data, -c('X.x.x', "X.y.x", "X.x.y" , "X.y.y"))
+data
+```
+
+
+
+```{r}
+
+write.csv(data, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_clean2.csv')
+
+```

@@ -1,0 +1,62 @@
+---
+title: "Education and Political Regime Cleaning"
+author: "Erin Bevec"
+date: "2023-10-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+school <- read.csv("C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\00-raw-data\\learning-adjusted-years-of-school-lays.csv")
+
+school <- subset(school, school$Year %in% c('2019','2020'))
+school <- select(school, -c('Code'))
+
+write.csv(school, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_school_clean2.csv')
+
+```
+
+
+```{r}
+
+regime <- read.csv("C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\00-raw-data\\political-regime.csv")
+head(regime)
+
+regime <- subset(regime, regime$Year %in% c('2019','2020'))
+regime <- select(regime, -c('Code'))
+
+regime1 <- regime[regime$Year == '2019',]
+regime2 <- regime[regime$Year == '2020',]
+
+regime1 <- select(regime1, -c('Year'))
+regime2 <- select(regime2, -c('Year'))
+
+colnames(regime1) <- c('Country', 'regime_2019')
+colnames(regime2) <- c('Country', 'regime_2020')
+
+regime <- merge(regime1, regime2, by = 'Country')
+
+
+regime$regime_2019[regime$regime_2019=='0']<-'closed autocracy'
+regime$regime_2019[regime$regime_2019=='1']<-'electoral autocracy'
+regime$regime_2019[regime$regime_2019=='2']<-'electoral democracy'
+regime$regime_2019[regime$regime_2019=='3']<-'liberal democracy'
+
+regime$regime_2020[regime$regime_2020=='0']<-'closed autocracy'
+regime$regime_2020[regime$regime_2020=='1']<-'electoral autocracy'
+regime$regime_2020[regime$regime_2020=='2']<-'electoral democracy'
+regime$regime_2020[regime$regime_2020=='3']<-'liberal democracy'
+
+
+write.csv(regime, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_regime_clean2.csv')
+
+```
+
+
+
+
+

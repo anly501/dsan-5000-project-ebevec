@@ -1,0 +1,61 @@
+---
+title: "hfi cleaning 2"
+author: "Erin Bevec"
+date: "2023-10-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+hfi <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_hfi_clean.csv')
+
+head(hfi)
+
+```
+
+```{r}
+
+colnames(hfi)
+
+```
+```{r}
+
+hfi <- dplyr::select(hfi, c(year, countries,hf_score, hf_rank, pf_religion, pf_expression, ef_score, pf_ss))
+
+hfi <- subset(hfi, hfi$year %in% c(2019, 2020))
+
+```
+
+```{r}
+
+hfi1 <- hfi[hfi$year == '2019',]
+hfi2 <- hfi[hfi$year == '2020',]
+
+hfi1 <- select(hfi1, -c('year'))
+hfi2 <- select(hfi2, -c('year'))
+
+colnames(hfi1) <- c('Country', 'hf_score_2019', 'hf_rank_2019', 'pf_religion_2019', 'pf_expression_2019', 'ef_score_2019', 'pf_ss_2019')
+colnames(hfi2) <- c('Country', 'hf_score_2020', 'hf_rank_2020', 'pf_religion_2020', 'pf_expression_2020', 'ef_score_2020', 'pf_ss_2020')
+
+hfi <- merge(hfi1, hfi2, by = 'Country')
+
+```
+
+```{r}
+
+write.csv(hfi, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_hfi_clean2.csv')
+
+
+```
+
+
+
+
+
+
+
+
