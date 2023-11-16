@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Clustering</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="clustering_files/libs/clipboard/clipboard.min.js"></script>
+<script src="clustering_files/libs/quarto-html/quarto.js"></script>
+<script src="clustering_files/libs/quarto-html/popper.min.js"></script>
+<script src="clustering_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="clustering_files/libs/quarto-html/anchor.min.js"></script>
+<link href="clustering_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="clustering_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="clustering_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="clustering_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="clustering_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Clustering</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The data being used in this analysis is a collection of country-wise economic, political, social, and human freedom measurements. 135 countries are included in this data from each of the seven continents. In this analysis, the intention is to elucidate underlying patterns in the data with regard to political regime. Each country is tagged with a particular political regime of these four descriptions: closed autocracy, electoral autocracy, electoral democracy, and liberal democracy. These governmental structures range from largely authoritarian to largely democratic. It is of interest to identify how factors that are essential to human freedom manifest in each of these political regimes. In the Western World, we assume that liberal democracy leads to maximal human freedom. This conception can be evaluated through clustering. The goal is to cluster the feature data in order to see if the indicators are highly variant between these regimes. Simply put, are the freedom indicators truly different between political regimes? The clustering analysis will aim to answer this query.</p>
+</section>
+<section id="theory" class="level1">
+<h1>Theory</h1>
+<p>Three clustering methods will be implemented in this analysis - K-Means Clustering, Density-Based Spatial Clustering of Applications with Noise (DBSCAN), and Hierarchical Clustering. Each method operated differently.</p>
+<p>K-means clustering is a method to identify groupings, or clusters, of similar observations. The algorithm calculates the euclidean distance between some point, and all other points in the dataset. The point is assigned to the same group as the ‘nearest’ point - the point with the smallest euclidean distance. This process is conducted for each point in the dataset.</p>
+<p>“K” in “K-means” is the hyperparameter that represents the number of clusters to discern amongst the observations. The selection of K is important to the usefulness of the results, and thus is important. K is often selected with a a priori test. Two that are implemented in this analysis is the elbow method. The elbow method involves trying many values of K and finding the sum of squared variance within each cluster. These statistics are then plotted, and hte plot takes on somewhat of an L shape, with potential K values along the x axis and the sum of squares on the y axis. This L shape will begin high and break into a more constant variance. The break point, or the ‘elbow’ is identified visually and that is a reasoable selection for k that minimizes intercluster variance optimally.</p>
+<p>ensity-Based Spatial Clustering of Applications with Noise (DBSCAN) is another clustering method that is used in this analysis. DBSCAN uses density to determine cluster groupings of observations in a data set. DBSCAN identifies neighbors, or near points, to each point and calculates an optimal density. The density refers to the number of points that have to be within range to create a neighborhood, or a cluster.</p>
+<p>K-means clustering reqiures the user setting a hyperparameter of K. DBSCAN does not require this setting, as it computes density mathematically within the algorithm. The silhouette score is used to evalaute the performance of the model. Silhouette score is a measure of how pure the cluster is that was identified by the algorithm. The score is on the range (-1 to1), where 0.5 is typically a good cluster, and values below indicate poor clustering.</p>
+<p>Hierarchical clustering is the third algorithm that is implemented in this analysis. Hierarchical clustering is an algorithm that builds a tree or bracket like data structure. This strucutre is build on observation similarity. This can be understool like an evolutionary tree in biology. This method creates many branches based on the distance between clusters. At any point a division, or a branch can be considered a cluster. In an evolutoinary tree, a cluster could be family, or genus for example.</p>
+<p>Hierarchical clustering has two types: agglomerative and divisive. Agglomerative clustering starts with each observation and merges them upward to construct the tree. Divisive begins with one large cluster and divides observations downwards from there. Agglmomerative clustering will be used in this analysis.</p>
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<section id="data-import" class="level3">
+<h3 class="anchored" data-anchor-id="data-import">Data Import</h3>
+<div class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans, AgglomerativeClustering, DBSCAN</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial.distance <span class="im">import</span> cdist</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
+<div class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'C:</span><span class="ch">\\</span><span class="st">Users</span><span class="ch">\\</span><span class="st">erinb</span><span class="ch">\\</span><span class="st">OneDrive</span><span class="ch">\\</span><span class="st">Documents</span><span class="ch">\\</span><span class="st">Georgetown</span><span class="ch">\\</span><span class="st">DSAN 5000</span><span class="ch">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="ch">\\</span><span class="st">data</span><span class="ch">\\</span><span class="st">01-modified-data</span><span class="ch">\\</span><span class="st">data_clean2.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.replace(<span class="st">","</span>, <span class="st">""</span>, regex <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df.iloc[:,<span class="dv">2</span>:<span class="dv">20</span>] <span class="op">=</span> df.iloc[:,<span class="dv">2</span>:<span class="dv">20</span>].<span class="bu">apply</span>(pd.to_numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear Interpolation</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>full_df <span class="op">=</span> df.dropna()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># GDP</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> full_df[<span class="st">'GDP_2020'</span>] <span class="op">-</span> full_df[<span class="st">'GDP_2019'</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> delta.mean()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'GDP_2020'</span>] <span class="op">=</span> df[<span class="st">'GDP_2020'</span>].fillna(df[<span class="st">'GDP_2019'</span>] <span class="op">+</span> delta)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'GDP_2019'</span>] <span class="op">=</span> df[<span class="st">'GDP_2019'</span>].fillna(df[<span class="st">'GDP_2020'</span>] <span class="op">-</span> delta)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>df.head()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Population </span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>delta2 <span class="op">=</span> full_df[<span class="st">'pop_2020'</span>] <span class="op">-</span> full_df[<span class="st">'pop_2019'</span>]</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>delta2 <span class="op">=</span> delta2.mean()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'pop_2020'</span>] <span class="op">=</span> df[<span class="st">'pop_2020'</span>].fillna(df[<span class="st">'pop_2019'</span>] <span class="op">+</span> delta)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'pop_2019'</span>] <span class="op">=</span> df[<span class="st">'pop_2019'</span>].fillna(df[<span class="st">'pop_2020'</span>] <span class="op">-</span> delta)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>df.head()</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Unemployment - Too many NaN for interpolation. Dropping columns. Imputation unreasonable for country-wise comparion.</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns <span class="op">=</span> [<span class="st">'unemployment_2019'</span>, <span class="st">'unemployment_2020'</span>])</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.iloc[:, <span class="dv">1</span>:]</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="57">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">GDP_2019</th>
+<th data-quarto-table-cell-role="th">GDP_2020</th>
+<th data-quarto-table-cell-role="th">pop_2019</th>
+<th data-quarto-table-cell-role="th">pop_2020</th>
+<th data-quarto-table-cell-role="th">hf_score_2019</th>
+<th data-quarto-table-cell-role="th">hf_rank_2019</th>
+<th data-quarto-table-cell-role="th">pf_religion_2019</th>
+<th data-quarto-table-cell-role="th">pf_expression_2019</th>
+<th data-quarto-table-cell-role="th">ef_score_2019</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">hf_score_2020</th>
+<th data-quarto-table-cell-role="th">hf_rank_2020</th>
+<th data-quarto-table-cell-role="th">pf_religion_2020</th>
+<th data-quarto-table-cell-role="th">pf_expression_2020</th>
+<th data-quarto-table-cell-role="th">ef_score_2020</th>
+<th data-quarto-table-cell-role="th">pf_ss_2020</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Learning.Adjusted.Years.of.School</th>
+<th data-quarto-table-cell-role="th">regime_2019</th>
+<th data-quarto-table-cell-role="th">regime_2020</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Albania</td>
+<td>1652.440564</td>
+<td>1644.08</td>
+<td>2.881</td>
+<td>2.878</td>
+<td>8.07</td>
+<td>42</td>
+<td>9.737500</td>
+<td>6.248600</td>
+<td>7.79</td>
+<td>...</td>
+<td>7.67</td>
+<td>47</td>
+<td>9.757500</td>
+<td>6.106867</td>
+<td>7.64</td>
+<td>9.249726</td>
+<td>2020</td>
+<td>8.953018</td>
+<td>electoral autocracy</td>
+<td>electoral autocracy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Algeria</td>
+<td>18485.260564</td>
+<td>18476.90</td>
+<td>43.424</td>
+<td>43.851</td>
+<td>5.08</td>
+<td>155</td>
+<td>5.236667</td>
+<td>4.586654</td>
+<td>4.86</td>
+<td>...</td>
+<td>5.13</td>
+<td>154</td>
+<td>5.417292</td>
+<td>4.395414</td>
+<td>5.12</td>
+<td>8.840074</td>
+<td>2020</td>
+<td>7.091553</td>
+<td>electoral autocracy</td>
+<td>electoral autocracy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Angola</td>
+<td>33049.360564</td>
+<td>33041.00</td>
+<td>32.354</td>
+<td>33.428</td>
+<td>5.96</td>
+<td>127</td>
+<td>6.736667</td>
+<td>5.500711</td>
+<td>5.55</td>
+<td>...</td>
+<td>5.97</td>
+<td>122</td>
+<td>6.746042</td>
+<td>5.597544</td>
+<td>5.91</td>
+<td>8.473782</td>
+<td>2020</td>
+<td>4.234978</td>
+<td>electoral autocracy</td>
+<td>electoral autocracy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Argentina</td>
+<td>27489.800564</td>
+<td>27481.44</td>
+<td>44.939</td>
+<td>45.388</td>
+<td>7.33</td>
+<td>75</td>
+<td>9.859375</td>
+<td>8.205444</td>
+<td>5.44</td>
+<td>...</td>
+<td>6.99</td>
+<td>74</td>
+<td>9.873750</td>
+<td>8.389844</td>
+<td>4.87</td>
+<td>8.504898</td>
+<td>2020</td>
+<td>8.411310</td>
+<td>electoral democracy</td>
+<td>electoral democracy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Armenia</td>
+<td>6190.260564</td>
+<td>6181.90</td>
+<td>2.963</td>
+<td>2.962</td>
+<td>8.32</td>
+<td>34</td>
+<td>8.338542</td>
+<td>7.617444</td>
+<td>7.98</td>
+<td>...</td>
+<td>8.14</td>
+<td>26</td>
+<td>8.389792</td>
+<td>7.580944</td>
+<td>7.84</td>
+<td>9.395818</td>
+<td>2020</td>
+<td>7.994621</td>
+<td>electoral democracy</td>
+<td>electoral democracy</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 21 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> df.iloc[:, <span class="dv">1</span>:<span class="dv">18</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> StandardScaler().fit_transform(x)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df.iloc[:, <span class="dv">20</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="function-definition" class="level3">
+<h3 class="anchored" data-anchor-id="function-definition">Function Definition</h3>
+<div class="cell" data-execution_count="77">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot(X,color_vector):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    ax.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>],c<span class="op">=</span>color_vector, cmap<span class="op">=</span><span class="st">"viridis"</span>) <span class="co">#, alpha=0.5) #, c=y</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Feature-1 (x_1)'</span>, ylabel<span class="op">=</span><span class="st">'Feature-2 (x_2)'</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Cluster data'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># fig.savefig("test.png")</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN, AgglomerativeClustering</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> maximize_silhouette(X,algo<span class="op">=</span><span class="st">"birch"</span>,nmax<span class="op">=</span><span class="dv">20</span>,i_plot<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PARAM</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    i_print<span class="op">=</span><span class="va">False</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#FORCE CONTIGUOUS</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>np.ascontiguousarray(X) </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># LOOP OVER HYPER-PARAM</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    params<span class="op">=</span>[]<span class="op">;</span> sil_scores<span class="op">=</span>[]</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    sil_max<span class="op">=-</span><span class="dv">10</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> param <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>,nmax<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(algo<span class="op">==</span><span class="st">"birch"</span>):</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            model <span class="op">=</span> sklearn.cluster.Birch(n_clusters<span class="op">=</span>param).fit(X)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            labels<span class="op">=</span>model.predict(X)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(algo<span class="op">==</span><span class="st">"ag"</span>):</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>            model <span class="op">=</span> AgglomerativeClustering(n_clusters<span class="op">=</span>param).fit(X)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>            labels<span class="op">=</span>model.labels_</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(algo<span class="op">==</span><span class="st">"dbscan"</span>):</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>            param<span class="op">=</span><span class="fl">0.5</span><span class="op">*</span>(param<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>            model <span class="op">=</span> DBSCAN(eps<span class="op">=</span>param).fit(X)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>            labels<span class="op">=</span>model.labels_</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(algo<span class="op">==</span><span class="st">"kmeans"</span>):</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>            model <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>param).fit(X)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>            labels<span class="op">=</span>model.predict(X)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>            sil_scores.append(silhouette_score(X,labels))</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>            params.append(param)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span>:</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(i_print): <span class="bu">print</span>(param,sil_scores[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(sil_scores[<span class="op">-</span><span class="dv">1</span>]<span class="op">&gt;</span>sil_max):</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>             opt_param<span class="op">=</span>param</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>             sil_max<span class="op">=</span>sil_scores[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>             opt_labels<span class="op">=</span>labels</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"OPTIMAL PARAMETER ="</span>,opt_param)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(i_plot):</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        ax.plot(params, sil_scores, <span class="st">"-o"</span>)  </span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Hyper-parameter'</span>, ylabel<span class="op">=</span><span class="st">'Silhouette'</span>)</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>        plt.show()</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> opt_labels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="k-means-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="k-means-clustering">K-means Clustering</h2>
+<div class="cell" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for k means clustering we will use the elbow method to find the optimal number of clusters. we will use the inertia_ attribute to find the sum of squared distances of samples to their closest cluster center. we will use the range of 1 to 10 clusters. plot the inertia_ values for each number of clusters. make sure to save it in a dataframe and plot it using matplotlib.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>inertias <span class="op">=</span> []</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>distortion <span class="op">=</span> []</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> K:</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>k).fit(x)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    model.fit(x)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    inertias.append(model.inertia_)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    distortion.append(<span class="bu">sum</span>(np.<span class="bu">min</span>(cdist(x, model.cluster_centers_, <span class="st">'euclidean'</span>), axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">/</span> x.shape[<span class="dv">0</span>])</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>plt.plot(K, inertias)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Clusters'</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Inertia'</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Elbow Method'</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Distortion, Inertia</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>plt.plot(K, distortion, color <span class="op">=</span> <span class="st">'green'</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>plt.legend(<span class="st">'Distortion'</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>plt.plot(K, inertias, color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>plt.legend(<span class="st">'Inertia'</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Silhouette method</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>maximize_silhouette(x,algo<span class="op">=</span><span class="st">"kmeans"</span>,nmax<span class="op">=</span><span class="dv">15</span>, i_plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-7-output-3.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-7-output-4.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>OPTIMAL PARAMETER = 4</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-7-output-6.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="78">
+<pre><code>array([1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0,
+       1, 0, 0, 1, 2, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1,
+       1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 2, 3, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+       1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0,
+       1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
+       1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1,
+       3, 0, 0])</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="87">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">4</span>).fit(x)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>model2.fit(x)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plot(x, color_vector<span class="op">=</span>model2.labels_)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>silhouette_score(x, model2.labels_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+C:\Users\erinb\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="87">
+<pre><code>0.3386557538343144</code></pre>
+</div>
+</div>
+</section>
+<section id="dbscan" class="level2">
+<h2 class="anchored" data-anchor-id="dbscan">DBSCAN</h2>
+<div class="cell" data-execution_count="93">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>clustering <span class="op">=</span> DBSCAN(eps<span class="op">=</span><span class="dv">3</span>, min_samples<span class="op">=</span><span class="dv">2</span>).fit(x)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(clustering.labels_)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(clustering)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>opt_labels<span class="op">=</span>maximize_silhouette(x,algo<span class="op">=</span><span class="st">"dbscan"</span>,nmax<span class="op">=</span><span class="dv">15</span>, i_plot<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plot(x,opt_labels)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(silhouette_score(x, opt_labels))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  0  0 -1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  0  0  0  0  0  0 -1 -1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  0  0  0  0  0  0  0  0  0  0  0  0 -1  0  0]
+DBSCAN(eps=3, min_samples=2)
+OPTIMAL PARAMETER = 2.5
+0.6299618630832903</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-9-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="hierarchical-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="hierarchical-clustering">Hierarchical Clustering</h2>
+<div class="cell" data-execution_count="89">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Agglomerative Clustering</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>opt_labels<span class="op">=</span>maximize_silhouette(x,algo<span class="op">=</span><span class="st">"ag"</span>,nmax<span class="op">=</span><span class="dv">15</span>, i_plot<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>labels<span class="op">=</span>model.predict(x)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plot(x,labels)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(silhouette_score(x, opt_labels))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>OPTIMAL PARAMETER = 7
+0.3833891675228451</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-10-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create linkage for agglomerative clustering, and the dendrogram for the linkage. Suggest the optimal number of clusters based on the dendrogram.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.cluster <span class="im">import</span> hierarchy</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>link <span class="op">=</span> hierarchy.linkage(x, <span class="st">'single'</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>hierarchy.dendrogram(link, above_threshold_color<span class="op">=</span><span class="st">"green"</span>, color_threshold<span class="op">=</span><span class="fl">.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="76">
+<pre><code>{'icoord': [[5.0, 5.0, 15.0, 15.0],
+  [85.0, 85.0, 95.0, 95.0],
+  [105.0, 105.0, 115.0, 115.0],
+  [145.0, 145.0, 155.0, 155.0],
+  [185.0, 185.0, 195.0, 195.0],
+  [175.0, 175.0, 190.0, 190.0],
+  [165.0, 165.0, 182.5, 182.5],
+  [150.0, 150.0, 173.75, 173.75],
+  [135.0, 135.0, 161.875, 161.875],
+  [125.0, 125.0, 148.4375, 148.4375],
+  [110.0, 110.0, 136.71875, 136.71875],
+  [215.0, 215.0, 225.0, 225.0],
+  [275.0, 275.0, 285.0, 285.0],
+  [265.0, 265.0, 280.0, 280.0],
+  [355.0, 355.0, 365.0, 365.0],
+  [345.0, 345.0, 360.0, 360.0],
+  [335.0, 335.0, 352.5, 352.5],
+  [325.0, 325.0, 343.75, 343.75],
+  [315.0, 315.0, 334.375, 334.375],
+  [385.0, 385.0, 395.0, 395.0],
+  [405.0, 405.0, 415.0, 415.0],
+  [445.0, 445.0, 455.0, 455.0],
+  [435.0, 435.0, 450.0, 450.0],
+  [425.0, 425.0, 442.5, 442.5],
+  [410.0, 410.0, 433.75, 433.75],
+  [565.0, 565.0, 575.0, 575.0],
+  [585.0, 585.0, 595.0, 595.0],
+  [615.0, 615.0, 625.0, 625.0],
+  [665.0, 665.0, 675.0, 675.0],
+  [655.0, 655.0, 670.0, 670.0],
+  [685.0, 685.0, 695.0, 695.0],
+  [662.5, 662.5, 690.0, 690.0],
+  [705.0, 705.0, 715.0, 715.0],
+  [676.25, 676.25, 710.0, 710.0],
+  [645.0, 645.0, 693.125, 693.125],
+  [745.0, 745.0, 755.0, 755.0],
+  [805.0, 805.0, 815.0, 815.0],
+  [855.0, 855.0, 865.0, 865.0],
+  [845.0, 845.0, 860.0, 860.0],
+  [835.0, 835.0, 852.5, 852.5],
+  [875.0, 875.0, 885.0, 885.0],
+  [843.75, 843.75, 880.0, 880.0],
+  [825.0, 825.0, 861.875, 861.875],
+  [810.0, 810.0, 843.4375, 843.4375],
+  [795.0, 795.0, 826.71875, 826.71875],
+  [785.0, 785.0, 810.859375, 810.859375],
+  [775.0, 775.0, 797.9296875, 797.9296875],
+  [765.0, 765.0, 786.46484375, 786.46484375],
+  [750.0, 750.0, 775.732421875, 775.732421875],
+  [735.0, 735.0, 762.8662109375, 762.8662109375],
+  [725.0, 725.0, 748.93310546875, 748.93310546875],
+  [669.0625, 669.0625, 736.966552734375, 736.966552734375],
+  [635.0, 635.0, 703.0145263671875, 703.0145263671875],
+  [620.0, 620.0, 669.0072631835938, 669.0072631835938],
+  [905.0, 905.0, 915.0, 915.0],
+  [895.0, 895.0, 910.0, 910.0],
+  [644.5036315917969, 644.5036315917969, 902.5, 902.5],
+  [605.0, 605.0, 773.5018157958984, 773.5018157958984],
+  [985.0, 985.0, 995.0, 995.0],
+  [975.0, 975.0, 990.0, 990.0],
+  [965.0, 965.0, 982.5, 982.5],
+  [955.0, 955.0, 973.75, 973.75],
+  [1035.0, 1035.0, 1045.0, 1045.0],
+  [1025.0, 1025.0, 1040.0, 1040.0],
+  [1015.0, 1015.0, 1032.5, 1032.5],
+  [1005.0, 1005.0, 1023.75, 1023.75],
+  [964.375, 964.375, 1014.375, 1014.375],
+  [1065.0, 1065.0, 1075.0, 1075.0],
+  [1055.0, 1055.0, 1070.0, 1070.0],
+  [1105.0, 1105.0, 1115.0, 1115.0],
+  [1095.0, 1095.0, 1110.0, 1110.0],
+  [1085.0, 1085.0, 1102.5, 1102.5],
+  [1125.0, 1125.0, 1135.0, 1135.0],
+  [1093.75, 1093.75, 1130.0, 1130.0],
+  [1062.5, 1062.5, 1111.875, 1111.875],
+  [989.375, 989.375, 1087.1875, 1087.1875],
+  [945.0, 945.0, 1038.28125, 1038.28125],
+  [935.0, 935.0, 991.640625, 991.640625],
+  [925.0, 925.0, 963.3203125, 963.3203125],
+  [689.2509078979492, 689.2509078979492, 944.16015625, 944.16015625],
+  [1155.0, 1155.0, 1165.0, 1165.0],
+  [1145.0, 1145.0, 1160.0, 1160.0],
+  [1175.0, 1175.0, 1185.0, 1185.0],
+  [1152.5, 1152.5, 1180.0, 1180.0],
+  [816.7055320739746, 816.7055320739746, 1166.25, 1166.25],
+  [590.0, 590.0, 991.4777660369873, 991.4777660369873],
+  [570.0, 570.0, 790.7388830184937, 790.7388830184937],
+  [555.0, 555.0, 680.3694415092468, 680.3694415092468],
+  [545.0, 545.0, 617.6847207546234, 617.6847207546234],
+  [535.0, 535.0, 581.3423603773117, 581.3423603773117],
+  [525.0, 525.0, 558.1711801886559, 558.1711801886559],
+  [1205.0, 1205.0, 1215.0, 1215.0],
+  [1235.0, 1235.0, 1245.0, 1245.0],
+  [1225.0, 1225.0, 1240.0, 1240.0],
+  [1295.0, 1295.0, 1305.0, 1305.0],
+  [1285.0, 1285.0, 1300.0, 1300.0],
+  [1275.0, 1275.0, 1292.5, 1292.5],
+  [1265.0, 1265.0, 1283.75, 1283.75],
+  [1255.0, 1255.0, 1274.375, 1274.375],
+  [1232.5, 1232.5, 1264.6875, 1264.6875],
+  [1210.0, 1210.0, 1248.59375, 1248.59375],
+  [1195.0, 1195.0, 1229.296875, 1229.296875],
+  [541.5855900943279, 541.5855900943279, 1212.1484375, 1212.1484375],
+  [515.0, 515.0, 876.867013797164, 876.867013797164],
+  [505.0, 505.0, 695.933506898582, 695.933506898582],
+  [1335.0, 1335.0, 1345.0, 1345.0],
+  [1325.0, 1325.0, 1340.0, 1340.0],
+  [1315.0, 1315.0, 1332.5, 1332.5],
+  [600.466753449291, 600.466753449291, 1323.75, 1323.75],
+  [495.0, 495.0, 962.1083767246455, 962.1083767246455],
+  [485.0, 485.0, 728.5541883623227, 728.5541883623227],
+  [475.0, 475.0, 606.7770941811614, 606.7770941811614],
+  [465.0, 465.0, 540.8885470905807, 540.8885470905807],
+  [421.875, 421.875, 502.94427354529034, 502.94427354529034],
+  [390.0, 390.0, 462.4096367726452, 462.4096367726452],
+  [375.0, 375.0, 426.2048183863226, 426.2048183863226],
+  [324.6875, 324.6875, 400.6024091931613, 400.6024091931613],
+  [305.0, 305.0, 362.64495459658065, 362.64495459658065],
+  [295.0, 295.0, 333.8224772982903, 333.8224772982903],
+  [272.5, 272.5, 314.41123864914516, 314.41123864914516],
+  [255.0, 255.0, 293.4556193245726, 293.4556193245726],
+  [245.0, 245.0, 274.2278096622863, 274.2278096622863],
+  [235.0, 235.0, 259.61390483114315, 259.61390483114315],
+  [220.0, 220.0, 247.30695241557157, 247.30695241557157],
+  [205.0, 205.0, 233.6534762077858, 233.6534762077858],
+  [123.359375, 123.359375, 219.3267381038929, 219.3267381038929],
+  [90.0, 90.0, 171.34305655194646, 171.34305655194646],
+  [75.0, 75.0, 130.67152827597323, 130.67152827597323],
+  [65.0, 65.0, 102.83576413798662, 102.83576413798662],
+  [55.0, 55.0, 83.91788206899331, 83.91788206899331],
+  [45.0, 45.0, 69.45894103449666, 69.45894103449666],
+  [35.0, 35.0, 57.22947051724833, 57.22947051724833],
+  [25.0, 25.0, 46.114735258624165, 46.114735258624165],
+  [10.0, 10.0, 35.55736762931208, 35.55736762931208]],
+ 'dcoord': [[0.0, 4.496067577068707, 4.496067577068707, 0.0],
+  [0.0, 1.9517972129833825, 1.9517972129833825, 0.0],
+  [0.0, 0.703696268925824, 0.703696268925824, 0.0],
+  [0.0, 1.3722580785765561, 1.3722580785765561, 0.0],
+  [0.0, 1.3516112800054276, 1.3516112800054276, 0.0],
+  [0.0, 1.4184233421553036, 1.4184233421553036, 1.3516112800054276],
+  [0.0, 1.4493473152846765, 1.4493473152846765, 1.4184233421553036],
+  [1.3722580785765561,
+   1.549414996467483,
+   1.549414996467483,
+   1.4493473152846765],
+  [0.0, 1.6820981282295178, 1.6820981282295178, 1.549414996467483],
+  [0.0, 1.963552695378754, 1.963552695378754, 1.6820981282295178],
+  [0.703696268925824,
+   1.9961176192010424,
+   1.9961176192010424,
+   1.963552695378754],
+  [0.0, 1.776973725111731, 1.776973725111731, 0.0],
+  [0.0, 1.3092889703089994, 1.3092889703089994, 0.0],
+  [0.0, 1.6285280924451557, 1.6285280924451557, 1.3092889703089994],
+  [0.0, 0.8863650405576513, 0.8863650405576513, 0.0],
+  [0.0, 1.105101481502257, 1.105101481502257, 0.8863650405576513],
+  [0.0, 1.3480192779193485, 1.3480192779193485, 1.105101481502257],
+  [0.0, 1.3606316666505467, 1.3606316666505467, 1.3480192779193485],
+  [0.0, 1.443482854226119, 1.443482854226119, 1.3606316666505467],
+  [0.0, 1.12480220717022, 1.12480220717022, 0.0],
+  [0.0, 1.3494017374699012, 1.3494017374699012, 0.0],
+  [0.0, 0.8943079979033159, 0.8943079979033159, 0.0],
+  [0.0, 1.2187295341208066, 1.2187295341208066, 0.8943079979033159],
+  [0.0, 1.3771698687364162, 1.3771698687364162, 1.2187295341208066],
+  [1.3494017374699012,
+   1.3801770945426646,
+   1.3801770945426646,
+   1.3771698687364162],
+  [0.0, 0.9314128603990841, 0.9314128603990841, 0.0],
+  [0.0, 1.0010219595681584, 1.0010219595681584, 0.0],
+  [0.0, 0.4738382195364864, 0.4738382195364864, 0.0],
+  [0.0, 0.41030903830636756, 0.41030903830636756, 0.0],
+  [0.0, 0.4634197366337419, 0.4634197366337419, 0.41030903830636756],
+  [0.0, 0.46596073561207785, 0.46596073561207785, 0.0],
+  [0.4634197366337419,
+   0.5502886248064773,
+   0.5502886248064773,
+   0.46596073561207785],
+  [0.0, 0.5885075214696726, 0.5885075214696726, 0.0],
+  [0.5502886248064773,
+   0.5922415724978689,
+   0.5922415724978689,
+   0.5885075214696726],
+  [0.0, 0.6708494032589604, 0.6708494032589604, 0.5922415724978689],
+  [0.0, 0.4724273431235918, 0.4724273431235918, 0.0],
+  [0.0, 0.2840740485338748, 0.2840740485338748, 0.0],
+  [0.0, 0.24318488721718087, 0.24318488721718087, 0.0],
+  [0.0, 0.262048333753419, 0.262048333753419, 0.24318488721718087],
+  [0.0, 0.31080593981996973, 0.31080593981996973, 0.262048333753419],
+  [0.0, 0.3319416999135542, 0.3319416999135542, 0.0],
+  [0.31080593981996973,
+   0.3390445975229618,
+   0.3390445975229618,
+   0.3319416999135542],
+  [0.0, 0.43717069284664467, 0.43717069284664467, 0.3390445975229618],
+  [0.2840740485338748,
+   0.45141717923667507,
+   0.45141717923667507,
+   0.43717069284664467],
+  [0.0, 0.46803927069844925, 0.46803927069844925, 0.45141717923667507],
+  [0.0, 0.48140685271959266, 0.48140685271959266, 0.46803927069844925],
+  [0.0, 0.4973705244210201, 0.4973705244210201, 0.48140685271959266],
+  [0.0, 0.5196951690520235, 0.5196951690520235, 0.4973705244210201],
+  [0.4724273431235918,
+   0.6293827357197073,
+   0.6293827357197073,
+   0.5196951690520235],
+  [0.0, 0.679432338028428, 0.679432338028428, 0.6293827357197073],
+  [0.0, 0.7417807928168012, 0.7417807928168012, 0.679432338028428],
+  [0.6708494032589604,
+   0.7759954923467076,
+   0.7759954923467076,
+   0.7417807928168012],
+  [0.0, 0.7892752083301652, 0.7892752083301652, 0.7759954923467076],
+  [0.4738382195364864,
+   0.8999502186493387,
+   0.8999502186493387,
+   0.7892752083301652],
+  [0.0, 0.8015002991826108, 0.8015002991826108, 0.0],
+  [0.0, 0.9069814310506567, 0.9069814310506567, 0.8015002991826108],
+  [0.8999502186493387,
+   0.9124727945352012,
+   0.9124727945352012,
+   0.9069814310506567],
+  [0.0, 0.9729858153556612, 0.9729858153556612, 0.9124727945352012],
+  [0.0, 0.6619970100244397, 0.6619970100244397, 0.0],
+  [0.0, 0.6906827867903618, 0.6906827867903618, 0.6619970100244397],
+  [0.0, 0.7256344817913133, 0.7256344817913133, 0.6906827867903618],
+  [0.0, 0.7580121801685225, 0.7580121801685225, 0.7256344817913133],
+  [0.0, 0.6218468060404815, 0.6218468060404815, 0.0],
+  [0.0, 0.6838170000009118, 0.6838170000009118, 0.6218468060404815],
+  [0.0, 0.6996721322141547, 0.6996721322141547, 0.6838170000009118],
+  [0.0, 0.766197573037277, 0.766197573037277, 0.6996721322141547],
+  [0.7580121801685225,
+   0.879464494585212,
+   0.879464494585212,
+   0.766197573037277],
+  [0.0, 0.7153602304022345, 0.7153602304022345, 0.0],
+  [0.0, 0.8492017671106896, 0.8492017671106896, 0.7153602304022345],
+  [0.0, 0.4998796814337127, 0.4998796814337127, 0.0],
+  [0.0, 0.7669795193267973, 0.7669795193267973, 0.4998796814337127],
+  [0.0, 0.7878600604461533, 0.7878600604461533, 0.7669795193267973],
+  [0.0, 0.891091399900422, 0.891091399900422, 0.0],
+  [0.7878600604461533,
+   0.9457720620917915,
+   0.9457720620917915,
+   0.891091399900422],
+  [0.8492017671106896,
+   0.9518307061813698,
+   0.9518307061813698,
+   0.9457720620917915],
+  [0.879464494585212,
+   0.9634063742510615,
+   0.9634063742510615,
+   0.9518307061813698],
+  [0.0, 0.9728875988132021, 0.9728875988132021, 0.9634063742510615],
+  [0.0, 0.978280531435129, 0.978280531435129, 0.9728875988132021],
+  [0.0, 0.9983534733505228, 0.9983534733505228, 0.978280531435129],
+  [0.9729858153556612,
+   1.0116751102781658,
+   1.0116751102781658,
+   0.9983534733505228],
+  [0.0, 0.7427685731456435, 0.7427685731456435, 0.0],
+  [0.0, 0.8211093089376743, 0.8211093089376743, 0.7427685731456435],
+  [0.0, 0.875487705657132, 0.875487705657132, 0.0],
+  [0.8211093089376743,
+   1.015695473375286,
+   1.015695473375286,
+   0.875487705657132],
+  [1.0116751102781658,
+   1.034820918775624,
+   1.034820918775624,
+   1.015695473375286],
+  [1.0010219595681584,
+   1.0404052848576488,
+   1.0404052848576488,
+   1.034820918775624],
+  [0.9314128603990841,
+   1.073747452794067,
+   1.073747452794067,
+   1.0404052848576488],
+  [0.0, 1.1134822955354853, 1.1134822955354853, 1.073747452794067],
+  [0.0, 1.140550707932681, 1.140550707932681, 1.1134822955354853],
+  [0.0, 1.1419687755987766, 1.1419687755987766, 1.140550707932681],
+  [0.0, 1.2153008156775784, 1.2153008156775784, 1.1419687755987766],
+  [0.0, 1.0227553423295577, 1.0227553423295577, 0.0],
+  [0.0, 0.9285815357637389, 0.9285815357637389, 0.0],
+  [0.0, 1.0789527051613157, 1.0789527051613157, 0.9285815357637389],
+  [0.0, 0.8080325722706162, 0.8080325722706162, 0.0],
+  [0.0, 0.9937320675480805, 0.9937320675480805, 0.8080325722706162],
+  [0.0, 1.088067948752044, 1.088067948752044, 0.9937320675480805],
+  [0.0, 1.1493777546014192, 1.1493777546014192, 1.088067948752044],
+  [0.0, 1.1524170785982424, 1.1524170785982424, 1.1493777546014192],
+  [1.0789527051613157,
+   1.153672345582932,
+   1.153672345582932,
+   1.1524170785982424],
+  [1.0227553423295577,
+   1.2095331087239467,
+   1.2095331087239467,
+   1.153672345582932],
+  [0.0, 1.2382953868855864, 1.2382953868855864, 1.2095331087239467],
+  [1.2153008156775784,
+   1.2471446038918519,
+   1.2471446038918519,
+   1.2382953868855864],
+  [0.0, 1.2497437629985455, 1.2497437629985455, 1.2471446038918519],
+  [0.0, 1.2631788801767407, 1.2631788801767407, 1.2497437629985455],
+  [0.0, 0.6351902357170262, 0.6351902357170262, 0.0],
+  [0.0, 1.1765271978599805, 1.1765271978599805, 0.6351902357170262],
+  [0.0, 1.2818260959930317, 1.2818260959930317, 1.1765271978599805],
+  [1.2631788801767407,
+   1.310356191492105,
+   1.310356191492105,
+   1.2818260959930317],
+  [0.0, 1.3586965595542724, 1.3586965595542724, 1.310356191492105],
+  [0.0, 1.3696365460112163, 1.3696365460112163, 1.3586965595542724],
+  [0.0, 1.3735891436763124, 1.3735891436763124, 1.3696365460112163],
+  [0.0, 1.3898886481127017, 1.3898886481127017, 1.3735891436763124],
+  [1.3801770945426646,
+   1.395779370998427,
+   1.395779370998427,
+   1.3898886481127017],
+  [1.12480220717022,
+   1.4449674433219135,
+   1.4449674433219135,
+   1.395779370998427],
+  [0.0, 1.4583926924637087, 1.4583926924637087, 1.4449674433219135],
+  [1.443482854226119,
+   1.496470632535117,
+   1.496470632535117,
+   1.4583926924637087],
+  [0.0, 1.5193924530294973, 1.5193924530294973, 1.496470632535117],
+  [0.0, 1.641351133559626, 1.641351133559626, 1.5193924530294973],
+  [1.6285280924451557,
+   1.6870556202281373,
+   1.6870556202281373,
+   1.641351133559626],
+  [0.0, 1.6911991859915154, 1.6911991859915154, 1.6870556202281373],
+  [0.0, 1.7294695344816637, 1.7294695344816637, 1.6911991859915154],
+  [0.0, 1.845141858363262, 1.845141858363262, 1.7294695344816637],
+  [1.776973725111731,
+   1.8568581957809576,
+   1.8568581957809576,
+   1.845141858363262],
+  [0.0, 1.9997313855801675, 1.9997313855801675, 1.8568581957809576],
+  [1.9961176192010424,
+   1.9999108108161732,
+   1.9999108108161732,
+   1.9997313855801675],
+  [1.9517972129833825,
+   2.040447724719834,
+   2.040447724719834,
+   1.9999108108161732],
+  [0.0, 2.0553891913487137, 2.0553891913487137, 2.040447724719834],
+  [0.0, 2.1147108004470336, 2.1147108004470336, 2.0553891913487137],
+  [0.0, 2.310424148651226, 2.310424148651226, 2.1147108004470336],
+  [0.0, 2.4712625564684894, 2.4712625564684894, 2.310424148651226],
+  [0.0, 7.736536707246999, 7.736536707246999, 2.4712625564684894],
+  [0.0, 8.414300844971402, 8.414300844971402, 7.736536707246999],
+  [4.496067577068707,
+   9.923078914011663,
+   9.923078914011663,
+   8.414300844971402]],
+ 'ivl': ['26',
+  '54',
+  '55',
+  '132',
+  '92',
+  '117',
+  '112',
+  '130',
+  '1',
+  '134',
+  '60',
+  '124',
+  '75',
+  '47',
+  '27',
+  '114',
+  '68',
+  '79',
+  '35',
+  '51',
+  '16',
+  '8',
+  '107',
+  '3',
+  '56',
+  '23',
+  '24',
+  '19',
+  '21',
+  '120',
+  '63',
+  '85',
+  '96',
+  '48',
+  '37',
+  '9',
+  '38',
+  '62',
+  '7',
+  '10',
+  '28',
+  '77',
+  '83',
+  '65',
+  '95',
+  '104',
+  '43',
+  '74',
+  '128',
+  '86',
+  '42',
+  '101',
+  '84',
+  '89',
+  '17',
+  '13',
+  '0',
+  '76',
+  '18',
+  '49',
+  '61',
+  '30',
+  '113',
+  '41',
+  '78',
+  '31',
+  '6',
+  '11',
+  '59',
+  '115',
+  '4',
+  '105',
+  '44',
+  '119',
+  '66',
+  '70',
+  '103',
+  '5',
+  '53',
+  '32',
+  '36',
+  '57',
+  '129',
+  '118',
+  '40',
+  '71',
+  '94',
+  '22',
+  '88',
+  '131',
+  '25',
+  '29',
+  '82',
+  '99',
+  '100',
+  '58',
+  '33',
+  '15',
+  '97',
+  '110',
+  '81',
+  '46',
+  '80',
+  '93',
+  '102',
+  '12',
+  '34',
+  '45',
+  '39',
+  '52',
+  '14',
+  '109',
+  '50',
+  '87',
+  '98',
+  '73',
+  '108',
+  '69',
+  '111',
+  '67',
+  '64',
+  '116',
+  '122',
+  '121',
+  '133',
+  '127',
+  '72',
+  '2',
+  '125',
+  '91',
+  '123',
+  '20',
+  '126',
+  '90',
+  '106'],
+ 'leaves': [26,
+  54,
+  55,
+  132,
+  92,
+  117,
+  112,
+  130,
+  1,
+  134,
+  60,
+  124,
+  75,
+  47,
+  27,
+  114,
+  68,
+  79,
+  35,
+  51,
+  16,
+  8,
+  107,
+  3,
+  56,
+  23,
+  24,
+  19,
+  21,
+  120,
+  63,
+  85,
+  96,
+  48,
+  37,
+  9,
+  38,
+  62,
+  7,
+  10,
+  28,
+  77,
+  83,
+  65,
+  95,
+  104,
+  43,
+  74,
+  128,
+  86,
+  42,
+  101,
+  84,
+  89,
+  17,
+  13,
+  0,
+  76,
+  18,
+  49,
+  61,
+  30,
+  113,
+  41,
+  78,
+  31,
+  6,
+  11,
+  59,
+  115,
+  4,
+  105,
+  44,
+  119,
+  66,
+  70,
+  103,
+  5,
+  53,
+  32,
+  36,
+  57,
+  129,
+  118,
+  40,
+  71,
+  94,
+  22,
+  88,
+  131,
+  25,
+  29,
+  82,
+  99,
+  100,
+  58,
+  33,
+  15,
+  97,
+  110,
+  81,
+  46,
+  80,
+  93,
+  102,
+  12,
+  34,
+  45,
+  39,
+  52,
+  14,
+  109,
+  50,
+  87,
+  98,
+  73,
+  108,
+  69,
+  111,
+  67,
+  64,
+  116,
+  122,
+  121,
+  133,
+  127,
+  72,
+  2,
+  125,
+  91,
+  123,
+  20,
+  126,
+  90,
+  106],
+ 'color_list': ['green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'C1',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'C4',
+  'C4',
+  'green',
+  'green',
+  'C5',
+  'C5',
+  'C5',
+  'green',
+  'green',
+  'green',
+  'green',
+  'C6',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'C7',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green'],
+ 'leaves_color_list': ['green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'C1',
+  'C1',
+  'green',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'C2',
+  'green',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'C3',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'C4',
+  'C4',
+  'C4',
+  'green',
+  'C5',
+  'C5',
+  'C5',
+  'C5',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'C6',
+  'C6',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'green',
+  'C7',
+  'C7']}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>The K-means clustering analysis revealed that the optimal cluster size is 4. The silhouette score of this analysis is 0.41, which is not optimal cluster separation. However, this is consistent with the four categories of political regime that are the true labels in this context, but it is unclear if the labeling is consistent.</p>
+<p>The DBSCAN analysis revelaed that two clusters are optimal. The analysis also had the highest respectvie silhouette score of 0.63, which is indicative of good cluster separation.</p>
+<p>The heirarchical clustering analysis indicated that 7 clusters are optimal. The silhouette score in this case was 0.38, the lowest performing of the clustering algorithms.</p>
+<p>These three analyses are inconsistent. This is likely due to the differnet mechanisms by which clustering occurs. K-means relies on an a priori hyperparameter selection, which may bias the reuslts. The DBSCAN had the best cluster separation, but due to the fact that the clusters are implicitly ill defined with outlying points, this is unliekly to be the most informative option. The heirarchical clustering had the worst performance and the highest number of clusters. These results are too granular to be the most useful. The implicitly ill defined clusters and the outlying points may have caused the inconsistency between these clustering algorithms.</p>
+<p>The clusters revealed that some countries are outliers in terms of features.</p>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions</h1>
+<p>The clustering analysis demonstrated that the clusters are relatively ill defined regardless of the method. The best performing alogirthm was DBSCAN, which identified two clusters. One contained most of the observations, or countries, while the other contained fewer outlying points. This may indicate consistency between the feature manifestations within countries. Or, it may be biased by the outlying countries. These points need further investigation to determine if the clusters are meaningfully defined without the outlying points.</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>The base code for this analysis was sources from the Georgetown University DSAN 5000 course lab 4.1 demonstration.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
