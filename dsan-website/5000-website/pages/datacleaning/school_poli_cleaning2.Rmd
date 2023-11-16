@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
+
+library(dplyr)
 school <- read.csv("C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\00-raw-data\\learning-adjusted-years-of-school-lays.csv")
 
 school <- subset(school, school$Year %in% c('2019','2020'))

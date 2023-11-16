@@ -1,5 +1,0 @@
-# Data
-
- [Data Repository](https://github.com/anly501/dsan-5000-project-ebevec/tree/main/data)
-
- 

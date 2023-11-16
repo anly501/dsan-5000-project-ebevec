@@ -21,9 +21,9 @@ website:
         text: Data Cleaning
       - href: pages/eda/eda.ipynb
         text: Data Exploration
-      - href: pages/clustering/clustering.qmd
+      - href: pages/clustering/clustering.ipynb
         text: Clustering
-      - href: pages/dimred/dimred.qmd
+      - href: pages/dimred/dimred.ipynb
         text: Dimensionality Reduction
       - href: pages/dectree/dectree.qmd
         text: Decision Trees
