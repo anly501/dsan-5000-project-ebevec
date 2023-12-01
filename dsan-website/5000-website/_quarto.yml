@@ -25,7 +25,7 @@ website:
         text: Clustering
       - href: pages/dimred/dimred.ipynb
         text: Dimensionality Reduction
-      - href: pages/dectree/dectree.qmd
+      - href: pages/dectree/dectree.ipynb
         text: Decision Trees
       - href: pages/arm/arm.qmd
         text: ARM
