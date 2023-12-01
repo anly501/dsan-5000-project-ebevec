@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DSAN-5000: Project – code</title>
+<title>DSAN-5000: Project – naive-bayes-record</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -59,6 +93,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -89,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../pages/code/code.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../../pages/code/code.html" rel="" target="">
  <span class="menu-text">Code</span></a>
   </li>  
   <li class="nav-item">
@@ -148,25 +185,205 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#code" id="toc-code" class="nav-link active" data-scroll-target="#code">Code</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<section id="code" class="level1">
-<h1>Code</h1>
-<p><a href="https://github.com/anly501/dsan-5000-project-ebevec">Github Repository</a></p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> MultinomialNB</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"C:</span><span class="ch">\\</span><span class="st">Users</span><span class="ch">\\</span><span class="st">erinb</span><span class="ch">\\</span><span class="st">OneDrive</span><span class="ch">\\</span><span class="st">Documents</span><span class="ch">\\</span><span class="st">Georgetown</span><span class="ch">\\</span><span class="st">DSAN 5000</span><span class="ch">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="ch">\\</span><span class="st">data</span><span class="ch">\\</span><span class="st">01-modified-data</span><span class="ch">\\</span><span class="st">data_clean2.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.iloc[:, <span class="dv">1</span>:<span class="dv">23</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">'GDP_2019'</span>, <span class="st">'GDP_2020'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<div>
 
 
-</section>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">pop_2019</th>
+<th data-quarto-table-cell-role="th">pop_2020</th>
+<th data-quarto-table-cell-role="th">unemployment_2019</th>
+<th data-quarto-table-cell-role="th">unemployment_2020</th>
+<th data-quarto-table-cell-role="th">hf_score_2019</th>
+<th data-quarto-table-cell-role="th">hf_rank_2019</th>
+<th data-quarto-table-cell-role="th">pf_religion_2019</th>
+<th data-quarto-table-cell-role="th">pf_expression_2019</th>
+<th data-quarto-table-cell-role="th">ef_score_2019</th>
+<th data-quarto-table-cell-role="th">pf_ss_2019</th>
+<th data-quarto-table-cell-role="th">hf_score_2020</th>
+<th data-quarto-table-cell-role="th">hf_rank_2020</th>
+<th data-quarto-table-cell-role="th">pf_religion_2020</th>
+<th data-quarto-table-cell-role="th">pf_expression_2020</th>
+<th data-quarto-table-cell-role="th">ef_score_2020</th>
+<th data-quarto-table-cell-role="th">pf_ss_2020</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Learning.Adjusted.Years.of.School</th>
+<th data-quarto-table-cell-role="th">regime_2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Albania</td>
+<td>2.881</td>
+<td>2.878</td>
+<td>11.470</td>
+<td>11.675</td>
+<td>8.07</td>
+<td>42</td>
+<td>9.737500</td>
+<td>6.248600</td>
+<td>7.79</td>
+<td>9.350083</td>
+<td>7.67</td>
+<td>47</td>
+<td>9.757500</td>
+<td>6.106867</td>
+<td>7.64</td>
+<td>9.249726</td>
+<td>2020</td>
+<td>8.953018</td>
+<td>electoral autocracy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Algeria</td>
+<td>43.424</td>
+<td>43.851</td>
+<td>11.383</td>
+<td>NaN</td>
+<td>5.08</td>
+<td>155</td>
+<td>5.236667</td>
+<td>4.586654</td>
+<td>4.86</td>
+<td>8.952936</td>
+<td>5.13</td>
+<td>154</td>
+<td>5.417292</td>
+<td>4.395414</td>
+<td>5.12</td>
+<td>8.840074</td>
+<td>2020</td>
+<td>7.091553</td>
+<td>electoral autocracy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Angola</td>
+<td>32.354</td>
+<td>33.428</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>5.96</td>
+<td>127</td>
+<td>6.736667</td>
+<td>5.500711</td>
+<td>5.55</td>
+<td>8.463164</td>
+<td>5.97</td>
+<td>122</td>
+<td>6.746042</td>
+<td>5.597544</td>
+<td>5.91</td>
+<td>8.473782</td>
+<td>2020</td>
+<td>4.234978</td>
+<td>electoral autocracy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Argentina</td>
+<td>44.939</td>
+<td>45.388</td>
+<td>9.825</td>
+<td>11.550</td>
+<td>7.33</td>
+<td>75</td>
+<td>9.859375</td>
+<td>8.205444</td>
+<td>5.44</td>
+<td>8.404363</td>
+<td>6.99</td>
+<td>74</td>
+<td>9.873750</td>
+<td>8.389844</td>
+<td>4.87</td>
+<td>8.504898</td>
+<td>2020</td>
+<td>8.411310</td>
+<td>electoral democracy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Armenia</td>
+<td>2.963</td>
+<td>2.962</td>
+<td>18.300</td>
+<td>18.200</td>
+<td>8.32</td>
+<td>34</td>
+<td>8.338542</td>
+<td>7.617444</td>
+<td>7.98</td>
+<td>9.264917</td>
+<td>8.14</td>
+<td>26</td>
+<td>8.389792</td>
+<td>7.580944</td>
+<td>7.84</td>
+<td>9.395818</td>
+<td>2020</td>
+<td>7.994621</td>
+<td>electoral democracy</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> df.iloc[:,<span class="dv">1</span>:<span class="dv">20</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x.<span class="bu">apply</span>(pd.to_numeric, errors <span class="op">=</span> <span class="st">'coerce'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x.replace(np.NaN, <span class="dv">0</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df.iloc[:,<span class="dv">19</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x_train, x_test, y_train, y_test <span class="op">=</span> train_test_split(x, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> MultinomialNB()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model.fit(x_train, y_train)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>model.score(x_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>0.5925925925925926</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(x_test)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>confusion_matrix(y_pred, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<pre><code>array([[1, 1, 0, 0],
+       [1, 4, 2, 0],
+       [0, 3, 4, 2],
+       [0, 0, 2, 7]], dtype=int64)</code></pre>
+</div>
+</div>
+
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

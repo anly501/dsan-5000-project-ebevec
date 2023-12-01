@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DSAN-5000: Project – code</title>
+<title>DSAN-5000: Project – datacleaning_hfi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -89,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../pages/code/code.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../../pages/code/code.html" rel="" target="">
  <span class="menu-text">Code</span></a>
   </li>  
   <li class="nav-item">
@@ -148,25 +182,126 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#code" id="toc-code" class="nav-link active" data-scroll-target="#code">Code</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<section id="code" class="level1">
-<h1>Code</h1>
-<p><a href="https://github.com/anly501/dsan-5000-project-ebevec">Github Repository</a></p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hfi <span class="op">=</span> pd.read_csv(<span class="st">'../../../../data//00-raw-data/human-freedom-index-2022.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>hfi.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(3465, 141)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hfi.columns.to_list())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['year', 'countries', 'region', 'hf_score', 'hf_rank', 'hf_quartile', 'pf_rol_procedural', 'pf_rol_civil', 'pf_rol_criminal', 'pf_rol_vdem', 'pf_rol', 'pf_ss_homicide', 'pf_ss_homicide_data', 'pf_ss_disappearances_disap', 'pf_ss_disappearances_violent', 'pf_ss_disappearances_violent_data', 'pf_ss_disappearances_organized', 'pf_ss_disappearances_fatalities', 'pf_ss_disappearances_fatalities_data', 'pf_ss_disappearances_injuries', 'pf_ss_disappearances_injuries_data', 'pf_ss_disappearances_torture', 'pf_ss_killings', 'pf_ss_disappearances', 'pf_ss', 'pf_movement_vdem_foreign', 'pf_movement_vdem_men', 'pf_movement_vdem_women', 'pf_movement_vdem', 'pf_movement_cld', 'pf_movement', 'pf_religion_freedom_vdem', 'pf_religion_freedom_cld', 'pf_religion_freedom', 'pf_religion_suppression', 'pf_religion', 'pf_assembly_entry', 'pf_assembly_freedom_house', 'pf_assembly_freedom_bti', 'pf_assembly_freedom_cld', 'pf_assembly_freedom', 'pf_assembly_parties_barriers', 'pf_assembly_parties_bans', 'pf_assembly_parties_auton', 'pf_assembly_parties', 'pf_assembly_civil', 'pf_assembly', 'pf_expression_direct_killed', 'pf_expression_direct_killed_data', 'pf_expression_direct_jailed', 'pf_expression_direct_jailed_data', 'pf_expression_direct', 'pf_expression_vdem_cultural', 'pf_expression_vdem_harass', 'pf_expression_vdem_gov', 'pf_expression_vdem_internet', 'pf_expression_vdem_selfcens', 'pf_expression_vdem', 'pf_expression_house', 'pf_expression_bti', 'pf_expression_cld', 'pf_expression', 'pf_identity_same_m', 'pf_identity_same_f', 'pf_identity_same', 'pf_identity_divorce', 'pf_identity_inheritance_widows', 'pf_identity_inheritance_daughters', 'pf_identity_inheritance', 'pf_identity_fgm', 'pf_identity', 'pf_score', 'pf_rank', 'ef_government_consumption', 'ef_government_consumption_data', 'ef_government_transfers', 'ef_government_transfers_data', 'ef_government_investment', 'ef_government_investment_data', 'ef_government_tax_income', 'ef_government_tax_income_data', 'ef_government_tax_payroll', 'ef_government_tax_payroll_data', 'ef_government_tax', 'ef_government_soa', 'ef_government', 'ef_legal_judicial', 'ef_legal_courts', 'ef_legal_protection', 'ef_legal_military', 'ef_legal_integrity', 'ef_legal_enforcement', 'ef_legal_regulatory', 'ef_legal_police', 'ef_gender', 'ef_legal', 'ef_money_growth', 'ef_money_growth_data', 'ef_money_sd', 'ef_money_sd_data', 'ef_money_inflation', 'ef_money_inflation_data', 'ef_money_currency', 'ef_money', 'ef_trade_tariffs_revenue', 'ef_trade_tariffs_revenue_data', 'ef_trade_tariffs_mean', 'ef_trade_tariffs_mean_data', 'ef_trade_tariffs_sd', 'ef_trade_tariffs_sd_data', 'ef_trade_tariffs', 'ef_trade_regulatory_nontariff', 'ef_trade_regulatory_compliance', 'ef_trade_regulatory', 'ef_trade_black', 'ef_trade_movement_open', 'ef_trade_movement_capital', 'ef_trade_movement_visit', 'ef_trade_movement', 'ef_trade', 'ef_regulation_credit_ownership', 'ef_regulation_credit_private', 'ef_regulation_credit_interest', 'ef_regulation_credit', 'ef_regulation_labor_minwage', 'ef_regulation_labor_firing', 'ef_regulation_labor_bargain', 'ef_regulation_labor_hours', 'ef_regulation_labor_dismissal', 'ef_regulation_labor_conscription', 'ef_regulation_labor', 'ef_regulation_business_adm', 'ef_regulation_business_burden', 'ef_regulation_business_start', 'ef_regulation_business_impartial', 'ef_regulation_business_licensing', 'ef_regulation_business_compliance', 'ef_regulation_business', 'ef_regulation', 'ef_score', 'ef_rank']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ID columns with more than 50% na</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>na_counts <span class="op">=</span> hfi.isna().<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>hfi <span class="op">=</span> hfi.drop(na_counts[na_counts <span class="op">&gt;</span> hfi.shape[<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span>].index, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>hfi.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>(3387, 141)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hfi.describe())</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>hfi.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              year     hf_score      hf_rank  hf_quartile  pf_rol_procedural  \
+count  3387.000000  3083.000000  3083.000000  3083.000000        1390.000000   
+mean   2010.060526     7.137230    74.438210     2.511515           5.483309   
+std       6.053527     1.231567    43.566679     1.117721           2.058964   
+min    2000.000000     3.150000     1.000000     1.000000           0.774885   
+25%    2005.000000     6.210000    37.000000     2.000000           3.973032   
+50%    2010.000000     7.230000    74.000000     3.000000           5.123925   
+75%    2015.000000     8.180000   110.000000     4.000000           7.266667   
+max    2020.000000     9.300000   165.000000     4.000000           9.674536   
+
+       pf_rol_civil  pf_rol_criminal  pf_rol_vdem       pf_rol  \
+count   1390.000000      1390.000000  3334.000000  3349.000000   
+mean       5.524964         4.963170     6.292156     5.327723   
+std        1.333783         1.634420     1.495600     1.614506   
+min        1.892666         1.206822     2.208892     1.552202   
+25%        4.543513         3.671504     5.333292     4.030632   
+50%        5.323999         4.533794     6.247939     5.004004   
+75%        6.351086         6.159868     7.411053     6.621539   
+max        8.773533         8.719848     9.293049     8.834741   
+
+       pf_ss_homicide  ...  ef_regulation_business_adm  \
+count     3339.000000  ...                 2750.000000   
+mean         7.943782  ...                    3.819296   
+std          2.472768  ...                    1.474746   
+min          0.000000  ...                    0.000000   
+25%          7.289985  ...                    2.943376   
+50%          8.952545  ...                    3.793707   
+75%          9.574389  ...                    4.642151   
+max         10.000000  ...                    8.535040   
+
+       ef_regulation_business_burden  ef_regulation_business_start  \
+count                    2826.000000                   3020.000000   
+mean                        5.308427                      8.579916   
+std                         2.317784                      1.444603   
+min                         0.000000                      0.000000   
+25%                         3.737374                      8.098452   
+50%                         5.345528                      9.067880   
+75%                         6.888889                      9.588642   
+max                        10.000000                      9.981891   
+
+       ef_regulation_business_impartial  ef_regulation_business_licensing  \
+count                       3334.000000                       2531.000000   
+mean                           5.764209                          7.604105   
+std                            2.393402                          1.860455   
+min                            0.000000                          0.000000   
+25%                            3.785000                          6.831442   
+50%                            5.670000                          8.039560   
+75%                            7.665000                          8.959370   
+max                           10.000000                         10.000000   
+
+       ef_regulation_business_compliance  ef_regulation_business  \
+count                        3043.000000             3048.000000   
+mean                            6.746191                6.327486   
+std                             2.192408                1.319703   
+min                             0.000000                1.865013   
+25%                             6.143992                5.501612   
+50%                             7.253715                6.385638   
+75%                             8.200903                7.211065   
+max                             9.925000                9.449778   
+
+       ef_regulation     ef_score      ef_rank  
+count    3115.000000  3083.000000  3083.000000  
+mean        6.889879     6.806610    74.393448  
+std         1.091376     0.991279    43.576273  
+min         2.497096     2.720000     1.000000  
+25%         6.263381     6.130000    37.000000  
+50%         6.975536     6.930000    74.000000  
+75%         7.656908     7.580000   110.000000  
+max         9.429423     9.100000   165.000000  
+
+[8 rows x 136 columns]
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+Index: 3387 entries, 0 to 3464
+Columns: 141 entries, year to ef_rank
+dtypes: float64(133), int64(3), object(5)
+memory usage: 3.7+ MB</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>hfi.to_csv(<span class="st">'C:</span><span class="ch">\\</span><span class="st">Users\erinb\OneDrive\Documents\Georgetown\DSAN 5000\dsan-5000-project-ebevec\dsan-website</span><span class="ch">\\</span><span class="st">5000-website\pages\datacleaning\data_hfi_clean.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
