@@ -53,7 +53,7 @@ knitr:
     dev: "png"
     echo: true
     message: false
-    warning: true
+    warning: false
     tidy: false
     tidy.opts: 
       blank: false
