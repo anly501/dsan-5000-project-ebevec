@@ -38,9 +38,9 @@ format:
   html:
     theme: cosmo
     toc: true
-    code-fold: true
     code-overflow: wrap
     self-contained: true
+    embed-resources: true
 editor: 
   markdown: 
     wrap: 65
