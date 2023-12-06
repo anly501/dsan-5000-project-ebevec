@@ -11,10 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(dplyr)
-hfi <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_hfi_clean2.csv')
-weo <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_weo_clean2.csv')
-school <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_school_clean2.csv')
-regime <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_regime_clean2.csv')
+hfi <- read.csv('../../../../data/01-modified-data/data_hfi_clean2.csv')
+weo <- read.csv('../../../../data/01-modified-data/data_weo_clean2.csv')
+school <- read.csv('../../../../data/01-modified-data/data_school_clean2.csv')
+regime <- read.csv('../../../../data/01-modified-data/data_regime_clean2.csv')
 
 ```
 
@@ -47,6 +47,6 @@ data
 
 ```{r}
 
-write.csv(data, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_clean2.csv')
+write.csv(data, '../../../../data/01-modified-data/data_clean2.csv')
 
 ```

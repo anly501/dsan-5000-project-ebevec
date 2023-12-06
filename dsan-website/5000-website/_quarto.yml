@@ -27,9 +27,7 @@ website:
         text: Dimensionality Reduction
       - href: pages/dectree/dectree.ipynb
         text: Decision Trees
-      - href: pages/arm/arm.qmd
-        text: ARM
-      - href: pages/naivebayes/naivebayes.ipynb
+      - href: pages/naivebayes/naivebayes.qmd
         text: Naive Bayes
       - href: pages/conclusions/conclusions.qmd
         text: Conclusions
@@ -40,3 +38,24 @@ format:
   html:
     theme: cosmo
     toc: true
+    code-fold: true
+    code-overflow: wrap
+    self-contained: true
+editor: 
+  markdown: 
+    wrap: 65
+knitr:
+  opts_chunk: 
+    collapse: false
+    comment: "#>"
+    fig.path: "figures/"
+    fig.align: "center"
+    dev: "png"
+    echo: true
+    message: false
+    warning: true
+    tidy: false
+    tidy.opts: 
+      blank: false
+      width.cutoff: 60
+      wrap: 60

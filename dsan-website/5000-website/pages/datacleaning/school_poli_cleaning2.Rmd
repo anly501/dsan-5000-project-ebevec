@@ -13,19 +13,19 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 
 library(dplyr)
-school <- read.csv("C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\00-raw-data\\learning-adjusted-years-of-school-lays.csv")
+school <- read.csv("../../../../data/00-raw-data/learning-adjusted-years-of-school-lays.csv")
 
 school <- subset(school, school$Year %in% c('2019','2020'))
 school <- select(school, -c('Code'))
 
-write.csv(school, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_school_clean2.csv')
+write.csv(school, '../../../../data/01-modified-data/data_school_clean2.csv')
 
 ```
 
 
 ```{r}
 
-regime <- read.csv("C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\00-raw-data\\political-regime.csv")
+regime <- read.csv("../../../../data/00-raw-data/political-regime.csv")
 head(regime)
 
 regime <- subset(regime, regime$Year %in% c('2019','2020'))
@@ -54,7 +54,7 @@ regime$regime_2020[regime$regime_2020=='2']<-'electoral democracy'
 regime$regime_2020[regime$regime_2020=='3']<-'liberal democracy'
 
 
-write.csv(regime, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_regime_clean2.csv')
+write.csv(regime, '../../../../data/01-modified-data/data_regime_clean2.csv')
 
 ```
 

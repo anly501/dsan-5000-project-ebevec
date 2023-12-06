@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(dplyr)
 
-hfi <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_hfi_clean.csv')
+hfi <- read.csv('../../../../data/01-modified-data/data_hfi_clean.csv')
 
 head(hfi)
 
@@ -49,7 +49,7 @@ hfi <- merge(hfi1, hfi2, by = 'Country')
 
 ```{r}
 
-write.csv(hfi, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_hfi_clean2.csv')
+write.csv(hfi, '../../../../data/01-modified-data/data_hfi_clean2.csv')
 
 
 ```

@@ -161,11 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Decision Trees</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../pages/arm/arm.qmd" rel="" target="">
- <span class="menu-text">ARM</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../pages/naivebayes/naivebayes.ipynb" rel="" target="">
+    <a class="nav-link" href="../../pages/naivebayes/naivebayes.html" rel="" target="">
  <span class="menu-text">Naive Bayes</span></a>
   </li>  
   <li class="nav-item">
@@ -221,9 +217,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.3.1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
 </div>
@@ -237,10 +230,10 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">erinb</span><span class="sc">\\</span><span class="st">OneDrive</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">Georgetown</span><span class="sc">\\</span><span class="st">DSAN 5000</span><span class="sc">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="sc">\\</span><span class="st">data</span><span class="sc">\\</span><span class="st">01-modified-data</span><span class="sc">\\</span><span class="st">data_weo_clean.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../../../../data/01-modified-data/data_weo_clean.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(weo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(weo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  X ISO WEO.Subject.Code     Country                      Subject.Descriptor
 1 1 AFG           NGDP_R Afghanistan Gross domestic product, constant prices
@@ -285,40 +278,40 @@ Attaching package: 'dplyr'</code></pre>
 5                  2020
 6                  2020</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>subjects <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'NGDP'</span>, <span class="st">'LP'</span>, <span class="st">'LE'</span>, <span class="st">'LUR'</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> <span class="fu">subset</span>(weo, weo<span class="sc">$</span>WEO.Subject.Code <span class="sc">%in%</span> subjects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>subjects <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'NGDP'</span>, <span class="st">'LP'</span>, <span class="st">'LE'</span>, <span class="st">'LUR'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> <span class="fu">subset</span>(weo, weo<span class="sc">$</span>WEO.Subject.Code <span class="sc">%in%</span> subjects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> weo[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">8</span><span class="sc">:</span><span class="dv">36</span>)]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> weo[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">13</span>)]</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>weo1 <span class="ot">&lt;-</span> weo[weo<span class="sc">$</span>WEO.Subject.Code <span class="sc">==</span> <span class="st">'NGDP'</span>,]</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>weo2 <span class="ot">&lt;-</span> weo[weo<span class="sc">$</span>WEO.Subject.Code <span class="sc">==</span> <span class="st">'LP'</span>,]</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>weo3 <span class="ot">&lt;-</span> weo[weo<span class="sc">$</span>WEO.Subject.Code <span class="sc">==</span> <span class="st">'LUR'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> weo[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">8</span><span class="sc">:</span><span class="dv">36</span>)]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> weo[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">13</span>)]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>weo1 <span class="ot">&lt;-</span> weo[weo<span class="sc">$</span>WEO.Subject.Code <span class="sc">==</span> <span class="st">'NGDP'</span>,]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>weo2 <span class="ot">&lt;-</span> weo[weo<span class="sc">$</span>WEO.Subject.Code <span class="sc">==</span> <span class="st">'LP'</span>,]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>weo3 <span class="ot">&lt;-</span> weo[weo<span class="sc">$</span>WEO.Subject.Code <span class="sc">==</span> <span class="st">'LUR'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(weo1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ISO"</span>, <span class="st">"WEO.Subject.Code"</span>, <span class="st">"Country"</span>, <span class="st">"Units"</span>, <span class="st">"Scale"</span>, <span class="st">"GDP_2019"</span>, <span class="st">"GDP_2020"</span>, <span class="st">"GDP_2021"</span>, <span class="st">"GDP_2022"</span>, <span class="st">"GDP_2023"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(weo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ISO"</span>, <span class="st">"WEO.Subject.Code"</span>, <span class="st">"Country"</span>, <span class="st">"Units"</span>, <span class="st">"Scale"</span>, <span class="st">"pop_2019"</span>, <span class="st">"pop_2020"</span>, <span class="st">"pop_2021"</span>, <span class="st">"pop_2022"</span>, <span class="st">"pop_2023"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(weo3) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ISO"</span>, <span class="st">"WEO.Subject.Code"</span>, <span class="st">"Country"</span>, <span class="st">"Units"</span>, <span class="st">"Scale"</span>, <span class="st">"unemployment_2019"</span>, <span class="st">"unemployment_2020"</span>, <span class="st">"unemployment_2021"</span>, <span class="st">"unemployment_2022"</span>, <span class="st">"unemployment_2023"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(weo1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ISO"</span>, <span class="st">"WEO.Subject.Code"</span>, <span class="st">"Country"</span>, <span class="st">"Units"</span>, <span class="st">"Scale"</span>, <span class="st">"GDP_2019"</span>, <span class="st">"GDP_2020"</span>, <span class="st">"GDP_2021"</span>, <span class="st">"GDP_2022"</span>, <span class="st">"GDP_2023"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(weo2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ISO"</span>, <span class="st">"WEO.Subject.Code"</span>, <span class="st">"Country"</span>, <span class="st">"Units"</span>, <span class="st">"Scale"</span>, <span class="st">"pop_2019"</span>, <span class="st">"pop_2020"</span>, <span class="st">"pop_2021"</span>, <span class="st">"pop_2022"</span>, <span class="st">"pop_2023"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(weo3) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ISO"</span>, <span class="st">"WEO.Subject.Code"</span>, <span class="st">"Country"</span>, <span class="st">"Units"</span>, <span class="st">"Scale"</span>, <span class="st">"unemployment_2019"</span>, <span class="st">"unemployment_2020"</span>, <span class="st">"unemployment_2021"</span>, <span class="st">"unemployment_2022"</span>, <span class="st">"unemployment_2023"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2019 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2019</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2020 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2020</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2021 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2021</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2022 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2022</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2023 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2023</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2019 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2019</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2020 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2020</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2021 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2021</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2022 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2022</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2023 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2023</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>weo1 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(weo1, <span class="sc">-</span><span class="fu">c</span>(<span class="st">'ISO'</span>, <span class="st">'WEO.Subject.Code'</span>, <span class="st">'Units'</span>, <span class="st">'Scale'</span>, <span class="st">'GDP_2021'</span>, <span class="st">'pop_2021'</span>, <span class="st">'unemployment_2021'</span>, <span class="st">'GDP_2022'</span>, <span class="st">'pop_2022'</span>, <span class="st">'unemployment_2022'</span>, <span class="st">'GDP_2023'</span>, <span class="st">'pop_2023'</span>, <span class="st">'unemployment_2023'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2019 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2019</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2020 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2020</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2021 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2021</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2022 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2022</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>pop_2023 <span class="ot">&lt;-</span> weo2<span class="sc">$</span>pop_2023</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2019 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2019</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2020 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2020</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2021 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2021</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2022 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2022</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>weo1<span class="sc">$</span>unemployment_2023 <span class="ot">&lt;-</span> weo3<span class="sc">$</span>unemployment_2023</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>weo1 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(weo1, <span class="sc">-</span><span class="fu">c</span>(<span class="st">'ISO'</span>, <span class="st">'WEO.Subject.Code'</span>, <span class="st">'Units'</span>, <span class="st">'Scale'</span>, <span class="st">'GDP_2021'</span>, <span class="st">'pop_2021'</span>, <span class="st">'unemployment_2021'</span>, <span class="st">'GDP_2022'</span>, <span class="st">'pop_2022'</span>, <span class="st">'unemployment_2022'</span>, <span class="st">'GDP_2023'</span>, <span class="st">'pop_2023'</span>, <span class="st">'unemployment_2023'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(weo1, <span class="st">'C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">erinb</span><span class="sc">\\</span><span class="st">OneDrive</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">Georgetown</span><span class="sc">\\</span><span class="st">DSAN 5000</span><span class="sc">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="sc">\\</span><span class="st">data</span><span class="sc">\\</span><span class="st">01-modified-data</span><span class="sc">\\</span><span class="st">data_weo_clean2.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(weo1, <span class="st">'../../../../data/01-modified-data/data_weo_clean2.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

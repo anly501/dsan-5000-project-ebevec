@@ -161,10 +161,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Decision Trees</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../pages/arm/arm.qmd" rel="" target="">
- <span class="menu-text">ARM</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="../../pages/naivebayes/naivebayes.ipynb" rel="" target="">
  <span class="menu-text">Naive Bayes</span></a>
   </li>  
@@ -221,9 +217,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.3.1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
 </div>
@@ -237,25 +230,25 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hfi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">erinb</span><span class="sc">\\</span><span class="st">OneDrive</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">Georgetown</span><span class="sc">\\</span><span class="st">DSAN 5000</span><span class="sc">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="sc">\\</span><span class="st">data</span><span class="sc">\\</span><span class="st">01-modified-data</span><span class="sc">\\</span><span class="st">data_hfi_clean2.csv'</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">erinb</span><span class="sc">\\</span><span class="st">OneDrive</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">Georgetown</span><span class="sc">\\</span><span class="st">DSAN 5000</span><span class="sc">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="sc">\\</span><span class="st">data</span><span class="sc">\\</span><span class="st">01-modified-data</span><span class="sc">\\</span><span class="st">data_weo_clean2.csv'</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>school <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">erinb</span><span class="sc">\\</span><span class="st">OneDrive</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">Georgetown</span><span class="sc">\\</span><span class="st">DSAN 5000</span><span class="sc">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="sc">\\</span><span class="st">data</span><span class="sc">\\</span><span class="st">01-modified-data</span><span class="sc">\\</span><span class="st">data_school_clean2.csv'</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>regime <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">erinb</span><span class="sc">\\</span><span class="st">OneDrive</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">Georgetown</span><span class="sc">\\</span><span class="st">DSAN 5000</span><span class="sc">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="sc">\\</span><span class="st">data</span><span class="sc">\\</span><span class="st">01-modified-data</span><span class="sc">\\</span><span class="st">data_regime_clean2.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>hfi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../../../../data/01-modified-data/data_hfi_clean2.csv'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>weo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../../../../data/01-modified-data/data_weo_clean2.csv'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>school <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../../../../data/01-modified-data/data_school_clean2.csv'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>regime <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../../../../data/01-modified-data/data_regime_clean2.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(hfi)[<span class="fu">names</span>(hfi) <span class="sc">==</span> <span class="st">'countries'</span>] <span class="ot">&lt;-</span> <span class="st">'Country'</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(hfi)[<span class="fu">names</span>(hfi) <span class="sc">==</span> <span class="st">'countries'</span>] <span class="ot">&lt;-</span> <span class="st">'Country'</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(hfi)[<span class="fu">names</span>(hfi) <span class="sc">==</span> <span class="st">'countries'</span>] <span class="ot">&lt;-</span> <span class="st">'Country'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(hfi)[<span class="fu">names</span>(hfi) <span class="sc">==</span> <span class="st">'countries'</span>] <span class="ot">&lt;-</span> <span class="st">'Country'</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(school)[<span class="fu">names</span>(school) <span class="sc">==</span> <span class="st">'Entity'</span>] <span class="ot">&lt;-</span> <span class="st">'Country'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">merge</span>(weo, hfi, <span class="at">by =</span> <span class="st">'Country'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(school, regime, <span class="at">by =</span> <span class="st">'Country'</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(school)[<span class="fu">names</span>(school) <span class="sc">==</span> <span class="st">'Entity'</span>] <span class="ot">&lt;-</span> <span class="st">'Country'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">merge</span>(data, data2, <span class="at">by =</span> <span class="st">'Country'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">merge</span>(weo, hfi, <span class="at">by =</span> <span class="st">'Country'</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(school, regime, <span class="at">by =</span> <span class="st">'Country'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">merge</span>(data, data2, <span class="at">by =</span> <span class="st">'Country'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Country"                           "X.x.x"                            
  [3] "GDP_2019"                          "GDP_2020"                         
@@ -272,8 +265,8 @@ Attaching package: 'dplyr'</code></pre>
 [25] "X.y.y"                             "regime_2019"                      
 [27] "regime_2020"                      </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">select</span>(data, <span class="sc">-</span><span class="fu">c</span>(<span class="st">'X.x.x'</span>, <span class="st">"X.y.x"</span>, <span class="st">"X.x.y"</span> , <span class="st">"X.y.y"</span>))</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">select</span>(data, <span class="sc">-</span><span class="fu">c</span>(<span class="st">'X.x.x'</span>, <span class="st">"X.y.x"</span>, <span class="st">"X.x.y"</span> , <span class="st">"X.y.y"</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     Country GDP_2019      GDP_2020 pop_2019 pop_2020
 1                    Albania       NA      1,644.08    2.881    2.878
@@ -1094,7 +1087,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(data, <span class="st">'C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">erinb</span><span class="sc">\\</span><span class="st">OneDrive</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">Georgetown</span><span class="sc">\\</span><span class="st">DSAN 5000</span><span class="sc">\\</span><span class="st">dsan-5000-project-ebevec</span><span class="sc">\\</span><span class="st">data</span><span class="sc">\\</span><span class="st">01-modified-data</span><span class="sc">\\</span><span class="st">data_clean2.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(data, <span class="st">'../../../../data/01-modified-data/data_clean2.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

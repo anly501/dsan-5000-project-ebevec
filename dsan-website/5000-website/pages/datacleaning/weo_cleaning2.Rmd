@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(dplyr)
-weo <- read.csv('C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_weo_clean.csv')
+weo <- read.csv('../../../../data/01-modified-data/data_weo_clean.csv')
 ```
 
 ```{r}
@@ -63,6 +63,6 @@ weo1 <- dplyr::select(weo1, -c('ISO', 'WEO.Subject.Code', 'Units', 'Scale', 'GDP
 
 ```{r}
 
-write.csv(weo1, 'C:\\Users\\erinb\\OneDrive\\Documents\\Georgetown\\DSAN 5000\\dsan-5000-project-ebevec\\data\\01-modified-data\\data_weo_clean2.csv')
+write.csv(weo1, '../../../../data/01-modified-data/data_weo_clean2.csv')
 
 ```
